@@ -1,0 +1,15 @@
+assets
+home
+spaire driver
+tabs
+sign in
+cdvMinSdkVersion
+api service
+
+
+phone-gap nfc
+agm core package.json
+location page
+Home Page
+wifi direct 
+bluetooth
