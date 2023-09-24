@@ -66,9 +66,16 @@
               <ion-col>
                 <ion-row>
                   <div
-                    style="flex: 5; text-align: start; margin-inline-start: -1rem !important"
+                    style="
+                      flex: 5;
+                      text-align: start;
+                      margin-inline-start: -1rem !important;
+                    "
                   >
-                    <button mat-icon-button  (click)="openOperationSelect(student)">
+                    <button
+                      mat-icon-button
+                      (click)="openOperationSelect(student)"
+                    >
                       <ion-icon name="ellipsis-vertical-outline"></ion-icon>
                     </button>
                   </div>
@@ -78,7 +85,6 @@
                 <ion-row>
                   <div style="text-align: start; flex: 3">
                     <img
-                     
                       [src]=" student.image ? student.image :  'assets/image/avatar-home-img.svg' "
                       width="75px"
                       height="75px"
@@ -160,6 +166,7 @@
 </ion-content>
 
 <ion-select
+  style="display: none"
   [(ngModel)]="selectedOperation"
   name="txtSelectedOperation"
   #operationSelect
