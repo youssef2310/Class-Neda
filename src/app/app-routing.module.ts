@@ -12,12 +12,6 @@ const routes: Routes = [
     loadChildren: () =>
       import(`./pages/signin/signin.module`).then((m) => m.SigninPageModule),
   },
-
-  {
-    path: 'map',
-    loadChildren: () =>
-      import(`./pages/location/location.module`).then((m) => m.LocationPageModule),
-  },
   {
     path: 'verfication-code',
     loadChildren: () =>

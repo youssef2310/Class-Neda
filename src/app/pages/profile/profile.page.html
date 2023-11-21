@@ -69,7 +69,7 @@
 
       <ion-row >
         <div style="flex: 10; text-align: center">
-          <button mat-raised-button class="btn-general" (click)="logOut()">
+          <button mat-raised-button class="btn-general" (click)="confirmLogout()">
             <span *ngIf="!loading">{{'logout' | translate}}</span>
             <ion-spinner
               *ngIf="loading"

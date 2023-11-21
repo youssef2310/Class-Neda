@@ -75,14 +75,14 @@ export class SharedMethodsService {
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
   }
 
-  async presentToast(msg, color) {
+  async presentToast(msg, color, customClass: string = '') {
     const toast = await this.toastController.create({
       message: msg,
       color: color,
       duration: 5000,
       animated: true,
       position: 'top',
-      
+      cssClass: customClass,
     });
     toast.present();
   }
@@ -109,6 +109,4 @@ export class SharedMethodsService {
     this.isLoading = false;
     return await this.loadingController.dismiss();
   }
-
-  
 }

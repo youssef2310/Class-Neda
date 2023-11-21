@@ -65,26 +65,9 @@
             >
               <ion-col>
                 <ion-row>
-                  <div
-                    style="
-                      flex: 5;
-                      text-align: start;
-                      margin-inline-start: -1rem !important;
-                    "
-                  >
-                    <button
-                      mat-icon-button
-                      (click)="openOperationSelect(student)"
-                    >
-                      <ion-icon name="ellipsis-vertical-outline"></ion-icon>
-                    </button>
-                  </div>
-
-                  <div style="flex: 20"></div>
-                </ion-row>
-                <ion-row>
                   <div style="text-align: start; flex: 3">
                     <img
+                      (click)="viewQrCode(student)"
                       [src]=" student.image ? student.image :  'assets/image/avatar-home-img.svg' "
                       width="75px"
                       height="75px"
@@ -101,11 +84,16 @@
                     mat-flat-button
                     [ngClass]="(school.school.fees > 0 && !student.paid) ? 'payment-invalid' : 'payment-valid' "
                     class="btn-general"
-                    [disabled]="student.call_student == 'disable'"
+                    [disabled]="student.call_student == 'disable' || isLoading"
                     (click)="callStudent(student,school)"
                     *ngIf="student.button && !isOffline"
                   >
-                    {{student.button}}
+                    <span  *ngIf="!student.loading">{{student.button}}</span>
+                    <ion-spinner
+                      *ngIf="student.loading"
+                      name="lines"
+                      style="--color: #fff !important"
+                    ></ion-spinner>
                   </button>
                   <button
                     mat-flat-button
@@ -164,31 +152,6 @@
     </ion-col>
   </ion-grid>
 </ion-content>
-
-<ion-select
-  style="display: none"
-  [(ngModel)]="selectedOperation"
-  name="txtSelectedOperation"
-  #operationSelect
-  [lang]="lang"
->
-  <ion-select-option value="1" *ngIf="activeStudent?.qrmenu">
-    {{'Scan Qr Code' | translate}}
-  </ion-select-option>
-  <ion-select-option value="2" *ngIf="activeStudent?.trnmenu"
-    >{{'View Transactions' | translate}}</ion-select-option
-  >
-  <ion-select-option value="3" *ngIf="activeStudent?.imgmenu"
-    >{{'Change Photo' | translate}}</ion-select-option
-  >
-
-  <ion-select-option value="4" *ngIf="activeStudent?.gethomelocmenu"
-    >{{'Set Home Location' | translate}}</ion-select-option
-  >
-  <ion-select-option value="5"
-    >{{'View the distance map from the house' | translate}}</ion-select-option
-  >
-</ion-select>
 
 <!-- ;
 padding-bottom: 20px; -->

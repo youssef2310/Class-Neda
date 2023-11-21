@@ -98,10 +98,10 @@ export class ApiService {
             // this.sharedMethods.presentToast(response.message, 'primary');
           } else if (response.relogin === true) {
             this.translateService.get('pleasereloginagain').subscribe((msg) => {
-              this.sharedMethods.presentToast(msg, 'danger');
+              this.sharedMethods.presentToast(msg, 'danger','testToast');
             });
           } else if (response.status_code === 0 && response.message) {
-            this.sharedMethods.presentToast(response.message, 'danger');
+            this.sharedMethods.presentToast(response.message, 'danger','testToast');
           }
         })
       );
@@ -138,16 +138,14 @@ export class ApiService {
         map(
           (response: any) => {
             if (response.message)
-              this.sharedMethods.presentToast(response.message, 'primary');
+              this.sharedMethods.presentToast(response.message, 'primary','testToast');
 
             if (response.status_code === 1) {
               let msg = this.translateService.instant('welcome');
-              this.sharedMethods.presentToast(msg, 'primary');
+              this.sharedMethods.presentToast(msg, 'primary','testToast');
               localStorage.removeItem('smsCode');
               localStorage.setItem('userToken', response.customer_token);
               localStorage.setItem('user', JSON.stringify(response.user));
-
-              
 
               // this.regiosterGCMTokenOnServer(
               //   localStorage.getItem('notification_token')
@@ -168,7 +166,7 @@ export class ApiService {
             }
           },
           (error) => {
-            this.sharedMethods.presentToast(error.error['message'], 'danger');
+            this.sharedMethods.presentToast(error.error['message'], 'danger','testToast');
           }
         )
       );
@@ -205,11 +203,11 @@ export class ApiService {
         map(
           (response: any) => {
             if (response.message)
-              this.sharedMethods.presentToast(response.message, 'primary');
+              this.sharedMethods.presentToast(response.message, 'primary','testToast');
 
             if (response.status_code === 1) {
               let msg = this.translateService.instant('welcome');
-              this.sharedMethods.presentToast(msg, 'primary');
+              this.sharedMethods.presentToast(msg, 'primary','testToast');
               localStorage.removeItem('smsCode');
               localStorage.setItem('userToken', response.customer_token);
               localStorage.setItem('user', JSON.stringify(response.user));
@@ -230,7 +228,7 @@ export class ApiService {
               this.translateService
                 .get('pleasereloginagain')
                 .subscribe((msg) => {
-                  this.sharedMethods.presentToast(msg, 'danger');
+                  this.sharedMethods.presentToast(msg, 'danger','testToast');
                 });
 
               this.router.navigate(['/signin'], {
@@ -239,7 +237,7 @@ export class ApiService {
             }
           },
           (error) => {
-            this.sharedMethods.presentToast(error.error['message'], 'danger');
+            this.sharedMethods.presentToast(error.error['message'], 'danger','testToast');
           }
         )
       );
@@ -255,13 +253,6 @@ export class ApiService {
       this.sharedVariables.globalVariables.projectID
     );
     formData.append('cacheBust', String(new Date().getTime()));
-
-    // let data: any = {};
-    // data = 'mob=' + localStorage.getItem('mobile');
-    // data = data + '&gcm_token=' + token;
-    // data =
-    //   data + '&project_id=' + this.sharedVariables.globalVariables.projectID;
-    // data = data + '&cacheBust=' + new Date().getTime();
     return this.httpClient
       .post(`${this.sharedVariables.apiUrl.registerGCMToken}`, formData, {
         headers: this.sharedVariables.globalVariables.http_config,
@@ -271,7 +262,7 @@ export class ApiService {
           if (response.status_code === 1) {
             //localStorage.setItem('GCM_token', token);
           } else if (response.relogin === true) {
-            this.sharedMethods.presentToast(response.message, 'danger');
+            this.sharedMethods.presentToast(response.message, 'danger','testToast');
           }
         })
       );
@@ -324,11 +315,11 @@ export class ApiService {
             this.translateService
               .get('yourchildhasbeenconfirmedsummoned')
               .subscribe((msg) => {
-                this.sharedMethods.presentToast(msg, 'primary');
+                this.sharedMethods.presentToast(msg, 'primary','testToast');
               });
           } else if (response.relogin === true) {
             this.translateService.get('pleasereloginagain').subscribe((msg) => {
-              this.sharedMethods.presentToast(msg, 'danger');
+              this.sharedMethods.presentToast(msg, 'danger','testToast');
             });
             this.router.navigate(['/signin'], {
               relativeTo: this.route,
@@ -336,6 +327,81 @@ export class ApiService {
           }
         })
       );
+  }
+
+  // mobileAuthorization=AWe~?N1zq]CE(5y!XM@]6IqH6.%R`xLsN~JKH$T/sY8PuNJRtH:s?@@7Ea
+  // &project_id=autoneda
+  // &table=neda_students
+  // &conditions={"school":"S0FF","parent":"966595214785"}
+  // school_id, student_id
+
+  registerDelegate(code, mob, name, pw) {
+    // if(!phoneTwo) phoneTwo="000000000"
+    return this.httpClient.post(
+      `${this.sharedVariables.apiUrl.upSert}`,
+      {
+        data: JSON.stringify([
+          {
+            code: code,
+            mob: mob,
+            name: name,
+            pw: pw,
+          },
+        ]),
+        project_id: 'autoneda',
+        table: 'neda_parents',
+        mobileAuthorization:
+          'AWe~?N1zq]CE(5y!XM@]6IqH6.%R`xLsN~JKH$T/sY8PuNJRtH:s?@@7Ea',
+      },
+
+      {
+        headers: this.sharedVariables.globalVariables.http_config,
+      }
+    );
+  }
+  deleteDelegateStudent(code) {
+    
+    // console.log(time);
+
+    return this.httpClient
+      .post(
+        `${this.sharedVariables.apiUrl.delete}`,
+        {
+          conditions: JSON.stringify({
+            
+            code: code,
+          }),
+          mobileAuthorization:
+            'AWe~?N1zq]CE(5y!XM@]6IqH6.%R`xLsN~JKH$T/sY8PuNJRtH:s?@@7Ea',
+          project_id: 'autoneda',
+          table: 'neda_students',
+        },
+
+        {
+          headers: this.sharedVariables.globalVariables.http_config,
+        }
+      )
+      .pipe(map((response: any) => {}));
+  }
+
+  registerDelegateStudents(students) {
+
+    return this.httpClient
+      .post(
+        `${this.sharedVariables.apiUrl.upSert}`,
+        {
+          data: JSON.stringify(students),
+          mobileAuthorization:
+            'AWe~?N1zq]CE(5y!XM@]6IqH6.%R`xLsN~JKH$T/sY8PuNJRtH:s?@@7Ea',
+          project_id: 'autoneda',
+          table: 'neda_students',
+        },
+
+        {
+          headers: this.sharedVariables.globalVariables.http_config,
+        }
+      )
+      .pipe(map((response: any) => {}));
   }
 
   updateLanguage(lang) {
@@ -363,10 +429,10 @@ export class ApiService {
       .pipe(
         map((response: any) => {
           if (response.status_code === 1) {
-            this.sharedMethods.presentToast(response.message, 'primary');
+            this.sharedMethods.presentToast(response.message, 'primary','testToast');
           } else if (response.relogin === true) {
             this.translateService.get('pleasereloginagain').subscribe((msg) => {
-              this.sharedMethods.presentToast(msg, 'danger');
+              this.sharedMethods.presentToast(msg, 'danger','testToast');
             });
             this.router.navigate(['/signin'], {
               relativeTo: this.route,
@@ -411,7 +477,7 @@ export class ApiService {
             });
           } else if (response.relogin === true) {
             this.translateService.get('pleasereloginagain').subscribe((msg) => {
-              this.sharedMethods.presentToast(msg, 'danger');
+              this.sharedMethods.presentToast(msg, 'danger','testToast');
             });
           }
         })
@@ -439,27 +505,7 @@ export class ApiService {
       }
     );
   }
-  setHomeLocation(studentCode, lat, lng) {
-    return this.httpClient.post(
-      `${this.sharedVariables.apiUrl.upSert}`,
-      {
-        data: JSON.stringify([
-          {
-            code: studentCode,
-            homeloc: String(lat) + ',' + String(lng),
-          },
-        ]),
-        project_id: 'autoneda',
-        table: 'neda_students',
-        mobileAuthorization:
-          'AWe~?N1zq]CE(5y!XM@]6IqH6.%R`xLsN~JKH$T/sY8PuNJRtH:s?@@7Ea',
-      },
 
-      {
-        headers: this.sharedVariables.globalVariables.http_config,
-      }
-    );
-  }
   updateAlertStatus(studentCode) {
     return this.httpClient.post(
       `${this.sharedVariables.apiUrl.upSert}`,
@@ -533,6 +579,8 @@ export class ApiService {
       }
     );
   }
+
+ 
 
   verifyUser() {
     let url = 'https://capsegypt.epictechnology.net/api/user/verifyuser';

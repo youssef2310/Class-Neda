@@ -36,17 +36,18 @@
   "Please Check your internet Connection and try again": "يرجى التحقق من اتصالك بالإنترنت وحاول مرة أخرى",
   "No Internet": "لا يوجد انترنت",
   "your internet connection has been restored successfully": "تمت استعادة اتصالك بالإنترنت بنجاح",
-  "spare driver": "السائق البديل",
+  "spare driver": "المفوض",
   "number one": "١",
   "number two": "٢",
   "name": "الأسم",
   "save": "حفظ",
-  "Location": "الموقع",
-  "Scan Qr Code": "الحصول على الرمز",
-  "View Transactions": "سجل عمليات الخروج",
-  "Change Photo": "تحديث الصورة",
-  "Set Home Location": "تحديد موقع المنزل",
-  "View the distance map from the house" : "عرض خريطة البعد عن المنزل",
-  "Home Location Saved Successfully" : "تم حفظ موقع المنزل بنجاح"
+  "Contact Support": "تواصل مع الدعم",
+  "Do you need to Close your account and erase your data": "هل تريد اغلاق الحساب وحذف البيانات ؟",
+  "Alert": "تنبيه",
+  "Yes": "نعم",
+  "No": "لا",
+  "You can not delegate yourself": "لا يمكنك تفويض نفسك",
+  "You can not repeat the same delegate number": "لا يمكنك تكرار نفس رقم المفوض",
+  "Delegates" : "المفوضون"
 
 }

@@ -9,7 +9,7 @@
       ></ion-back-button>
     </ion-buttons>
     <ion-title header-title [lang]="lang"
-      >{{'spare driver' | translate}}</ion-title
+      >{{'Delegates' | translate}}</ion-title
     >
   </ion-toolbar>
 </ion-header>
@@ -233,7 +233,12 @@
       <ion-row class="ion-padding">
         <div style="flex: 10; text-align: center">
           <button mat-raised-button class="btn-general" (click)="save()">
-            <span>{{'save' | translate}}</span>
+            <span *ngIf="!isLoading">{{'save' | translate}}</span>
+            <ion-spinner
+              *ngIf="isLoading"
+              name="lines"
+              style="--color: #fff !important"
+            ></ion-spinner>
           </button>
         </div>
       </ion-row>

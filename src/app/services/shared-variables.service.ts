@@ -582,7 +582,8 @@ export class SharedVariablesService {
     this.apiUrl.registerPaymentImage =
       'https://i.letsw.com/img/cloud/autoneda/register.png';
 
-      this.apiUrl.upSert = this.globalVariables.baseURL + '/api/upsert'
+      this.apiUrl.upSert = this.globalVariables.baseURL + '/api/upsert';
+      this.apiUrl.delete = this.globalVariables.baseURL + '/api/delete'
   }
 
   

@@ -2,7 +2,7 @@
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import CryptoJS from 'crypto-js';
-// import QueryString from 'queryString';
+import QueryString from 'queryString';
 
 //const publicIp = require('public-ip');
 import { RespCode } from './response-code';

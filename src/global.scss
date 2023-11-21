@@ -55,21 +55,38 @@ ion-header {
   display: inherit !important;
 }
 
+.testToast{
+  color: black !important;
+}
+
+.alert-color{
+  color: #060690 !important;
+  font-weight: 600;
+}
+
 * {
   font-family: "sans_regular" !important;
 }
-
-// :lang(ar) {
-  
-//     font-family: "sans_regular" !important;
-  
+// .alert-wrapper {
+//   direction: rtl !important;
+// }
+// :dir(ltr) {
+//   .alert-wrapper {
+//     direction: rtl !important;
+//   }
 // }
 
-// :lang(en) {
-  
-//     font-family: "avenir_regular" !important;
+[lang="ar"] {
+  .alert-wrapper {
+    direction: rtl !important;
+  }
+}
 
-// }
+[lang="en"] {
+  .alert-wrapper {
+    direction: ltr !important;
+  }
+}
 
 .btn-general {
   font-size: 18px;

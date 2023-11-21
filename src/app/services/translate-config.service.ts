@@ -19,11 +19,12 @@ export class TranslateConfigService {
     localStorage.setItem('lang', lang);
     this.translate.use(lang);
     this.translate.currentLang = lang;
+    document.documentElement.setAttribute('lang', lang);
     // if (lang == 'en') this.document.documentElement.dir = 'ltr';
     // else this.document.documentElement.dir = 'rtl';
   }
 
-  getCurrentLang():string{
+  getCurrentLang(): string {
     return this.translate.currentLang;
   }
 }

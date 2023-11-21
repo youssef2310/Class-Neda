@@ -4,9 +4,6 @@ import { DatePipe } from '@angular/common';
 import { ApiService } from '../../services/api.service';
 import * as moment from 'moment';
 import { ActivatedRoute, Router } from '@angular/router';
-
-import { NFC, Ndef } from '@ionic-native/nfc/ngx';
-
 @Component({
   selector: 'app-qr-code',
   templateUrl: './qr-code.page.html',
@@ -17,13 +14,10 @@ export class QrCodePage implements OnInit {
   title = 'qrcode';
   elementType: 'url' | 'canvas' | 'img' = 'canvas';
   value = 'Techiediaries';
-  ndefMsg;
   constructor(
     private translateService: TranslateService,
     private router: Router,
-    private route: ActivatedRoute,
-    public nfc: NFC,
-    public ndef: Ndef
+    private route: ActivatedRoute
   ) {
     this.ionViewWillEnter();
   }
@@ -35,22 +29,9 @@ export class QrCodePage implements OnInit {
     this.route.paramMap.subscribe((paramMap) => {
       if (!paramMap.has('qrCode')) return;
       this.value = paramMap.get('qrCode');
-      console.log(this.value);
+      console.log(this.value)
+      
     });
-  }
-
-  ionViewDidEnter() {
-    this.writeNFC();
-  }
-
-  writeNFC() {
-    this.ndefMsg = this.ndef.textRecord('Auto Neda');
-    this.nfc
-      .write([this.ndefMsg])
-      .then(() => {
-        console.log('written');
-      })
-      .catch((err) => {});
   }
 
   goToHome() {

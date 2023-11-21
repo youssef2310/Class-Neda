@@ -13,7 +13,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { Network } from '@ionic-native/network/ngx';
-import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 
 @NgModule({
   imports: [
@@ -26,7 +25,6 @@ import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
     RouterModule,
   ],
   declarations: [HomePage],
-  providers: [DatePipe, Network,  Geolocation,
-    LocationAccuracy,],
+  providers: [DatePipe, Network],
 })
 export class HomePageModule {}

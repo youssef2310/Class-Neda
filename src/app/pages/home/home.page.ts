@@ -1,26 +1,20 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { TranslateConfigService } from '../../services/translate-config.service';
 // import { FCM } from 'cordova-plugin-fcm-with-dependecy-updated/ionic/ngx';
-import { IonSelect, Platform } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { DatePipe } from '@angular/common';
 import { Payment } from '../../payment-lib/payment.model';
 import { PaymentService } from '../../services/payment.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Network } from '@ionic-native/network/ngx';
-import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
-
 // import * as _ from 'lodash';
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  @ViewChild('operationSelect', { static: false }) selectRef: IonSelect;
-  selectedOperation;
   lang: string = '';
   parentList: any[] = [];
   parentData: any;
@@ -32,8 +26,7 @@ export class HomePage implements OnInit {
   parentTemp: any[] = [];
   isOffline: boolean = false;
   listPrev: any[] = [];
-  homeLat: any;
-  homeLng: any;
+  isLoading: boolean = false;
   constructor(
     private translateConfig: TranslateConfigService,
     private apiService: ApiService,
@@ -42,9 +35,7 @@ export class HomePage implements OnInit {
     private paymentService: PaymentService,
     private router: Router,
     private route: ActivatedRoute,
-    private network: Network,
-    private locationAccuracy: LocationAccuracy,
-    private geoLocation: Geolocation
+    private network: Network
   ) {
     let test: string = 'Student Tawfeeq is Dissmissed*لقد خرج الطالب توفيق';
     console.log(test.split('*'));
@@ -54,16 +45,14 @@ export class HomePage implements OnInit {
       this.fillParentChildren();
     });
 
-    // if (!navigator.onLine) {
-    //   this.isOffline = true;
-    //   localStorage.setItem('online', '0');
-    //   let msg = this.translateConfig.translate.instant(
-    //     'Please Check your internet Connection and try again'
-    //   );
-    //   this.apiService.sharedMethods.presentToast(msg, 'primary');
-    // } else {
-    //   localStorage.setItem('online', '1');
-    // }
+    if (!navigator.onLine) {
+      this.isOffline = true;
+      localStorage.setItem('online', '0');
+      let msg = this.translateConfig.translate.instant(
+        'Please Check your internet Connection and try again'
+      );
+      this.apiService.sharedMethods.presentToast(msg, 'primary');
+    }
 
     this.network.onDisconnect().subscribe((res) => {
       this.isOffline = true;
@@ -83,29 +72,10 @@ export class HomePage implements OnInit {
       this.apiService.sharedMethods.presentToast(msg, 'primary');
     });
   }
-  activeStudent: any;
+
   ngOnInit() {}
 
-  openOperationSelect(student) {
-    this.activeStudent = student;
-    this.selectRef.open().then((res) => {
-      this.selectRef.ionChange.subscribe((res) => {
-        if (this.selectedOperation == 1) {
-          this.viewQrCode(student);
-        } else if (this.selectedOperation == 4) {
-          console.log(this.selectedOperation);
-          this.setHomeLocation();
-        } else if (this.selectedOperation == 5) {
-          localStorage.setItem('studentCode', this.activeStudent['code']);
-          this.router.navigate(['/tabs/map']);
-        }
-        this.selectedOperation = null;
-      });
-    });
-  }
-
   fillParentChildren(observe?: boolean) {
-    this.getCurrentLocation();
     if (this.isOffline || localStorage.getItem('online') == '0') {
       this.parentList = JSON.parse(localStorage.getItem('parentList'));
       this.parentData = JSON.parse(localStorage.getItem('parent'));
@@ -139,6 +109,11 @@ export class HomePage implements OnInit {
         if (!this.listPrev || !this.listPrev.length)
           this.listPrev = this.parentList;
         console.log(this.parentList);
+        this.parentList.forEach((item: any) => {
+          item.students.forEach((element) => {
+            element['loading'] = false;
+          });
+        });
         localStorage.setItem('parentList', JSON.stringify(this.parentList));
         if (!this.parentTemp.length) this.parentTemp = this.parentList;
         //this.notifySchool();
@@ -148,25 +123,6 @@ export class HomePage implements OnInit {
         this.apiService.sharedMethods.dismissLoader();
       }
     );
-  }
-
-  getCurrentLocation() {
-    // this.geoLocation.watchPosition().subscribe((res: any) => {
-    //   this.homeLat = res.coords.latitude;
-    //   this.homeLng = res.coords.longitude;
-    // });
-    this.homeLat = localStorage.getItem('currentLatitude');
-    this.homeLng = localStorage.getItem('currentLongitude');
-  }
-  setHomeLocation() {
-    this.apiService
-      .setHomeLocation(this.activeStudent['code'], this.homeLat, this.homeLng)
-      .subscribe((res) => {
-        let msg = this.translateConfig.translate.instant(
-          'Home Location Saved Successfully'
-        );
-        this.apiService.sharedMethods.presentToast(msg, 'primary');
-      });
   }
 
   ionViewWillEnter() {
@@ -214,6 +170,7 @@ export class HomePage implements OnInit {
               // console.log(ij++)
               // console.log(e['lbl']);
               // console.log(this.listPrev[index]['students'][i]['lbl']);
+              e['loading'] = false;
               console.log(e['alert']);
               if (e['alert'] == true) {
                 // console.log(element['school']['tone']);
@@ -265,6 +222,7 @@ export class HomePage implements OnInit {
       this.getReadyToPay(student, school);
       return;
     }
+    student['loading'] = true;
     this.apiService
       .callStudent(
         student.school,
@@ -273,12 +231,18 @@ export class HomePage implements OnInit {
         this.getCurrentDate(),
         false
       )
-      .subscribe((res: any) => {
-        if (res.status_code == 1) {
-          student.call_student = 'disable';
+      .subscribe(
+        (res: any) => {
+          student['loading'] = false;
+          if (res.status_code == 1) {
+            student.call_student = 'disable';
+          }
+          // student.
+        },
+        (error) => {
+          this.isLoading = false;
         }
-        // student.
-      });
+      );
   }
 
   notifySchool() {
@@ -327,6 +291,7 @@ export class HomePage implements OnInit {
       )
       .subscribe((res: any) => {
         // student.
+        this.fillParentChildren();
       });
   }
 

@@ -5,6 +5,7 @@ import { TranslateConfigService } from '../../services/translate-config.service'
 import * as firebase from 'firebase';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-signin',
@@ -12,9 +13,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./signin.page.scss'],
 })
 export class SigninPage implements OnInit {
-  // google maps zoom level
-  zoom: number = 8;
-
   lang: string = '';
   mobile: number;
   countryPhoneCode: string = '966';
@@ -27,7 +25,8 @@ export class SigninPage implements OnInit {
     private apiService: ApiService,
     private sharedMethods: SharedMethodsService,
     private router: Router,
-    private fireAuth: AngularFireAuth
+    private fireAuth: AngularFireAuth,
+    private alertController: AlertController
   ) {
     this.lang = this.translateConfigService.getCurrentLang();
     this.apiService.checkVerificationStatus();
@@ -47,7 +46,7 @@ export class SigninPage implements OnInit {
       } else {
         msg = 'يرجى ملء الحقول المطلوبة';
       }
-      this.sharedMethods.presentToast(msg, 'danger');
+      this.sharedMethods.presentToast(msg, 'danger', 'testToast');
 
       return;
     }
@@ -57,10 +56,10 @@ export class SigninPage implements OnInit {
     // }
 
     if (String(phone).length < 8) {
-      if (this.lang == 'en') msg = 'Mobile Number must be at least 8 digits';
-      else msg = 'يجب أن يتكون رقم الجوال من ٨ ارقام';
+      if (this.lang == 'en') msg = 'Mobile Number must be at least 9 digits';
+      else msg = 'يجب أن يتكون رقم الجوال من ٩ ارقام';
 
-      this.sharedMethods.presentToast(msg, 'danger');
+      this.sharedMethods.presentToast(msg, 'danger', 'testToast');
 
       return;
     }
@@ -70,7 +69,7 @@ export class SigninPage implements OnInit {
     if (!String(phone).match(/^\d+$/)) {
       if (this.lang == 'en') msg = 'Please enter the numbers in english';
       else msg = 'يرجي ادخال الارقام باللغه الانجليزيه';
-      this.sharedMethods.presentToast(msg, 'danger');
+      this.sharedMethods.presentToast(msg, 'danger', 'testToast');
 
       return;
     }
@@ -97,7 +96,7 @@ export class SigninPage implements OnInit {
       (error) => {
         console.log(error);
         this.loading = false;
-        this.sharedMethods.presentToast(error.error.message, 'danger');
+        this.sharedMethods.presentToast(error.error.message, 'danger', 'testToast');
       }
     );
   }
@@ -135,14 +134,14 @@ export class SigninPage implements OnInit {
         this.apiService.sharedVariables.verifyCode = this.confirmationResult;
         let msg =
           this.translateConfigService.translate.instant('smsmcodewassent');
-        this.apiService.sharedMethods.presentToast(msg, 'primary');
+        this.apiService.sharedMethods.presentToast(msg, 'primary', 'testToast');
         this.router.navigate(['/verfication-code']);
       })
       .catch((err) => {
         this.loading = false;
         let msg =
           this.translateConfigService.translate.instant('smsmcodewassent');
-        this.apiService.sharedMethods.presentToast(msg, 'primary');
+        this.apiService.sharedMethods.presentToast(msg, 'primary', 'testToast');
         this.router.navigate(['/verfication-code']);
         // this.recaptchaVerifier.render().then((widgetID) => {
         //   this.reset(widgetID);
@@ -170,7 +169,6 @@ export class SigninPage implements OnInit {
     this.apiService.verifyCodePassword(staticCode).subscribe(
       (res) => {
         //console.log(res)
-
         this.loading = false;
         this.checkUserExistence();
         localStorage.setItem('verified', '0');
@@ -188,10 +186,11 @@ export class SigninPage implements OnInit {
       (res: any) => {
         this.apiService.sharedMethods.dismissLoader();
         if (!res || !res.result || !res['parent']) {
-          let msg = this.translateConfigService.translate.instant(
-            'Not Registered for this service'
-          );
-          this.apiService.sharedMethods.presentToast(msg, 'primary');
+          // let msg = this.translateConfigService.translate.instant(
+          //   'Not Registered for this service'
+          // );
+          // this.apiService.sharedMethods.presentToast(msg, 'primary');
+          this.contactTechSupport();
           return;
         } else {
           this.apiService
@@ -208,5 +207,38 @@ export class SigninPage implements OnInit {
         this.apiService.sharedMethods.dismissLoader();
       }
     );
+  }
+
+  async contactTechSupport() {
+    let msg = this.translateConfigService.translate.instant(
+      'Not Registered for this service'
+    );
+    let contactSupport =
+      this.translateConfigService.translate.instant('Contact Support');
+    let close = this.translateConfigService.translate.instant('close');
+    let alertMsg = this.translateConfigService.translate.instant('Alert');
+    const alert = await this.alertController.create({
+      header: alertMsg,
+      message: msg,
+      
+      buttons: [
+        {
+          text: close,
+          role: 'cancel',
+          handler: () => {},
+          cssClass:'alert-color'
+        },
+        {
+          text: contactSupport,
+          cssClass: 'alert-color',
+          role: 'confirm',
+          handler: () => {
+            window.open('https://wa.me/966532103300', '_system');
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 }

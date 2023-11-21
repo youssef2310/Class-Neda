@@ -18,6 +18,7 @@ import { Subject } from 'rxjs';
 import { URWAYPayment } from '../payment-lib/urwaypayment';
 import { ApiService } from './api.service';
 
+import QueryString from 'queryString';
 
 @Injectable({
   providedIn: 'root',

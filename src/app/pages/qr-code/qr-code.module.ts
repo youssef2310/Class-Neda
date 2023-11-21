@@ -11,7 +11,7 @@ import { MaterialModule } from '../../material.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { DatePipe } from '@angular/common';
 import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
-import { Ndef, NFC } from '@ionic-native/nfc/ngx';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -20,9 +20,9 @@ import { Ndef, NFC } from '@ionic-native/nfc/ngx';
     QrCodePageRoutingModule,
     MaterialModule,
     TranslateModule,
-    NgxQRCodeModule,
+    NgxQRCodeModule
   ],
   declarations: [QrCodePage],
-  providers: [DatePipe, NFC, Ndef],
+  providers : [DatePipe]
 })
 export class QrCodePageModule {}
