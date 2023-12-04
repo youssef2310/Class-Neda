@@ -32,7 +32,7 @@ const routes: Routes = [
     path: 'qr-code',
     loadChildren: () => import('./pages/qr-code/qr-code.module').then( m => m.QrCodePageModule)
   },
- 
+
 ];
 @NgModule({
   imports: [

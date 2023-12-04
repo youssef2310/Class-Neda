@@ -19,6 +19,9 @@
       <ion-row>
         <div class="msg-container" [lang]="lang">
           <p class="msg-text">{{'userverification' | translate}}</p>
+
+          <p class="msg-text" [lang]="lang">{{'userverificationHelp1' | translate}}  <a (click)="callSupport()">{{'userverificationHelp2' | translate}}</a>  </p>
+
         </div>
       </ion-row>
       <br />

@@ -5,3 +5,7 @@
     width: 100% !important;
     height: 300px !important;
 }
+
+:host ::ng-deep img{
+    width: 20rem !important;
+}

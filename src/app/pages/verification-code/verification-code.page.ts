@@ -27,6 +27,8 @@ export class VerificationCodePage implements OnInit {
   ngOnInit() {}
 
   verifyCode() {
+    console.log(this.code);
+
     if (!this.code.match(/^\d+$/)) {
       let msg: string = '';
       // if (this.lang == 'en') msg = 'Please enter the numbers in english';
@@ -108,10 +110,19 @@ export class VerificationCodePage implements OnInit {
         this.router.navigate(['/tabs/home'], {
           relativeTo: this.route,
         });
-      } else {
+      }else if(this.code === localStorage.getItem('wtsp_code')){
+        localStorage.setItem('verified', '1')
+        this.router.navigate(['/tabs/home'], {
+          relativeTo: this.route,
+        });
+      }
+       else {
         console.log('sms code');
         this.verifyCode();
       }
     }
+  }
+  callSupport(){
+    window.open('https://wa.me/966532103300', '_system');
   }
 }

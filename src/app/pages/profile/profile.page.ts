@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateConfigService } from '../../services/translate-config.service';
 import { ApiService } from '../../services/api.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-profile',
@@ -16,6 +16,7 @@ export class ProfilePage implements OnInit {
   constructor(
     private translateConfigService: TranslateConfigService,
     private apiService: ApiService,
+    private platform: Platform,
     private alertController: AlertController
   ) {}
 
@@ -122,5 +123,9 @@ export class ProfilePage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  closeApp(){
+    navigator['app'].exitApp();
   }
 }

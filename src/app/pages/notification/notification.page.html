@@ -28,7 +28,7 @@
   <ion-list *ngIf="notifications && notifications.length">
     <ion-item-sliding
       ion-padding
-      *ngFor="let notification of notifications ;let i = index ; trackBy: trackByIdFunc"
+      *ngFor="let notification of notifications ;let i = index"
     >
       <ion-item
         (click)="setNotificationAsRead(notification,i)"
@@ -72,8 +72,8 @@
       <!-- <ion-item-options>
             <ion-item-option color="danger" (click)="deleteNotif(notification.id)">
               <ion-icon name="trash-outline" slot="icon-only" ></ion-icon>
-            </ion-item-option> 
-           
+            </ion-item-option>
+
           </ion-item-options>-->
     </ion-item-sliding>
   </ion-list>

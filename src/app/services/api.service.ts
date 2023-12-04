@@ -95,18 +95,54 @@ export class ApiService {
         map((response: any) => {
           if (response.status_code === 1) {
             localStorage.setItem('smsCode', response.sms_code);
+            console.log(response);
+
             // this.sharedMethods.presentToast(response.message, 'primary');
           } else if (response.relogin === true) {
             this.translateService.get('pleasereloginagain').subscribe((msg) => {
-              this.sharedMethods.presentToast(msg, 'danger','testToast');
+              this.sharedMethods.presentToast(msg, 'danger', 'testToast');
             });
           } else if (response.status_code === 0 && response.message) {
-            this.sharedMethods.presentToast(response.message, 'danger','testToast');
+            this.sharedMethods.presentToast(
+              response.message,
+              'danger',
+              'testToast'
+            );
           }
         })
       );
   }
 
+  sendCodeWhatsapp(phone) {
+    const code: any = Math.floor(100000 + Math.random() * 900000);
+    // const url = 'https://wa4.era.net.sa/sendMessage/wLjhyNE3QHrD/'+'212670448107'+'/AutoNeda%20Code:%20%20'+code;
+    // const url = 'https://wa4.era.net.sa/sendMessage/wLjhyNE3QHrD/'+phone+'/AutoNeda%20Code:%20%20'+code;
+
+    const url = `https://wa4.era.net.sa/sendMessage/wLjhyNE3QHrD/${phone}/AutoNeda%20Code:%20%20+${code}`;
+
+    let headers: {
+      'Content-Type': 'application/json';
+      'Access-Control-Allow-Origin': '*';
+    };
+    localStorage.setItem('wtsp_code', code);
+    return this.httpClient
+      .get(url, {
+        headers: headers,
+      })
+      .pipe(
+        map((response: any) => {
+          if (response === 'Success') {
+            localStorage.setItem('wtsp_code', code);
+          } else {
+            this.sharedMethods.presentToast(
+              response.message,
+              'danger',
+              'testToast'
+            );
+          }
+        })
+      );
+  }
   verifyCodePassword(code) {
     if (!code) return;
 
@@ -138,11 +174,15 @@ export class ApiService {
         map(
           (response: any) => {
             if (response.message)
-              this.sharedMethods.presentToast(response.message, 'primary','testToast');
+              this.sharedMethods.presentToast(
+                response.message,
+                'primary',
+                'testToast'
+              );
 
             if (response.status_code === 1) {
               let msg = this.translateService.instant('welcome');
-              this.sharedMethods.presentToast(msg, 'primary','testToast');
+              this.sharedMethods.presentToast(msg, 'primary', 'testToast');
               localStorage.removeItem('smsCode');
               localStorage.setItem('userToken', response.customer_token);
               localStorage.setItem('user', JSON.stringify(response.user));
@@ -166,7 +206,11 @@ export class ApiService {
             }
           },
           (error) => {
-            this.sharedMethods.presentToast(error.error['message'], 'danger','testToast');
+            this.sharedMethods.presentToast(
+              error.error['message'],
+              'danger',
+              'testToast'
+            );
           }
         )
       );
@@ -203,11 +247,15 @@ export class ApiService {
         map(
           (response: any) => {
             if (response.message)
-              this.sharedMethods.presentToast(response.message, 'primary','testToast');
+              this.sharedMethods.presentToast(
+                response.message,
+                'primary',
+                'testToast'
+              );
 
             if (response.status_code === 1) {
               let msg = this.translateService.instant('welcome');
-              this.sharedMethods.presentToast(msg, 'primary','testToast');
+              this.sharedMethods.presentToast(msg, 'primary', 'testToast');
               localStorage.removeItem('smsCode');
               localStorage.setItem('userToken', response.customer_token);
               localStorage.setItem('user', JSON.stringify(response.user));
@@ -228,7 +276,7 @@ export class ApiService {
               this.translateService
                 .get('pleasereloginagain')
                 .subscribe((msg) => {
-                  this.sharedMethods.presentToast(msg, 'danger','testToast');
+                  this.sharedMethods.presentToast(msg, 'danger', 'testToast');
                 });
 
               this.router.navigate(['/signin'], {
@@ -237,7 +285,11 @@ export class ApiService {
             }
           },
           (error) => {
-            this.sharedMethods.presentToast(error.error['message'], 'danger','testToast');
+            this.sharedMethods.presentToast(
+              error.error['message'],
+              'danger',
+              'testToast'
+            );
           }
         )
       );
@@ -262,7 +314,11 @@ export class ApiService {
           if (response.status_code === 1) {
             //localStorage.setItem('GCM_token', token);
           } else if (response.relogin === true) {
-            this.sharedMethods.presentToast(response.message, 'danger','testToast');
+            this.sharedMethods.presentToast(
+              response.message,
+              'danger',
+              'testToast'
+            );
           }
         })
       );
@@ -315,11 +371,11 @@ export class ApiService {
             this.translateService
               .get('yourchildhasbeenconfirmedsummoned')
               .subscribe((msg) => {
-                this.sharedMethods.presentToast(msg, 'primary','testToast');
+                this.sharedMethods.presentToast(msg, 'primary', 'testToast');
               });
           } else if (response.relogin === true) {
             this.translateService.get('pleasereloginagain').subscribe((msg) => {
-              this.sharedMethods.presentToast(msg, 'danger','testToast');
+              this.sharedMethods.presentToast(msg, 'danger', 'testToast');
             });
             this.router.navigate(['/signin'], {
               relativeTo: this.route,
@@ -360,7 +416,6 @@ export class ApiService {
     );
   }
   deleteDelegateStudent(code) {
-    
     // console.log(time);
 
     return this.httpClient
@@ -368,7 +423,6 @@ export class ApiService {
         `${this.sharedVariables.apiUrl.delete}`,
         {
           conditions: JSON.stringify({
-            
             code: code,
           }),
           mobileAuthorization:
@@ -385,7 +439,6 @@ export class ApiService {
   }
 
   registerDelegateStudents(students) {
-
     return this.httpClient
       .post(
         `${this.sharedVariables.apiUrl.upSert}`,
@@ -429,10 +482,14 @@ export class ApiService {
       .pipe(
         map((response: any) => {
           if (response.status_code === 1) {
-            this.sharedMethods.presentToast(response.message, 'primary','testToast');
+            this.sharedMethods.presentToast(
+              response.message,
+              'primary',
+              'testToast'
+            );
           } else if (response.relogin === true) {
             this.translateService.get('pleasereloginagain').subscribe((msg) => {
-              this.sharedMethods.presentToast(msg, 'danger','testToast');
+              this.sharedMethods.presentToast(msg, 'danger', 'testToast');
             });
             this.router.navigate(['/signin'], {
               relativeTo: this.route,
@@ -477,7 +534,7 @@ export class ApiService {
             });
           } else if (response.relogin === true) {
             this.translateService.get('pleasereloginagain').subscribe((msg) => {
-              this.sharedMethods.presentToast(msg, 'danger','testToast');
+              this.sharedMethods.presentToast(msg, 'danger', 'testToast');
             });
           }
         })
@@ -579,8 +636,6 @@ export class ApiService {
       }
     );
   }
-
- 
 
   verifyUser() {
     let url = 'https://capsegypt.epictechnology.net/api/user/verifyuser';

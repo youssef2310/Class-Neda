@@ -35,8 +35,6 @@ export class SigninPage implements OnInit {
   ngOnInit() {}
 
   register() {
-    console.log(this.mobile);
-    console.log(this.countryPhoneCode);
     let phone: number;
     phone = this.mobile;
     let msg: string = '';
@@ -96,7 +94,11 @@ export class SigninPage implements OnInit {
       (error) => {
         console.log(error);
         this.loading = false;
-        this.sharedMethods.presentToast(error.error.message, 'danger', 'testToast');
+        this.sharedMethods.presentToast(
+          error.error.message,
+          'danger',
+          'testToast'
+        );
       }
     );
   }
@@ -200,6 +202,9 @@ export class SigninPage implements OnInit {
               (error) => {}
             );
           this.onSignInSubmit();
+          this.apiService
+            .sendCodeWhatsapp(this.countryPhoneCode + this.mobile)
+            .subscribe();
           return;
         }
       },
@@ -220,13 +225,13 @@ export class SigninPage implements OnInit {
     const alert = await this.alertController.create({
       header: alertMsg,
       message: msg,
-      
+
       buttons: [
         {
           text: close,
           role: 'cancel',
           handler: () => {},
-          cssClass:'alert-color'
+          cssClass: 'alert-color',
         },
         {
           text: contactSupport,

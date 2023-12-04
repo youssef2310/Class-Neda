@@ -15,15 +15,13 @@
 </ion-header>
 
 <ion-content>
- 
+
   <ion-grid>
     <ion-row style="margin-top: 20%" class="ion-padding">
       <div style="flex: 10; text-align: center">
         <ngx-qrcode
-          [elementType]="elementType"
           [value]="value"
-          cssClass="aclass"
-          errorCorrectionLevel="L"
+          
         >
         </ngx-qrcode>
       </div>
@@ -33,10 +31,10 @@
       <div style="flex: 10; text-align: center">
         <button mat-raised-button class="btn-general" (click)="goToHome()">
           <span>{{'close' | translate}}</span>
-         
+
         </button>
       </div>
     </ion-row>
   </ion-grid>
-  
+
 </ion-content>

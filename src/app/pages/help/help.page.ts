@@ -18,4 +18,7 @@ export class HelpPage implements OnInit {
     this.lang = this.translateService.currentLang;
     console.log(this.lang)
   }
+  callSupport(){
+    window.open('https://wa.me/966532103300', '_system');
+  }
 }

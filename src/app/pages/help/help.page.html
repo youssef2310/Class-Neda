@@ -15,18 +15,31 @@
   <ion-grid [lang]="lang">
     <ion-col>
       <ion-row>
+        <div class="help-container-support table">
+          <ion-col class="table-cell">
+            <div class=" mb-4" style="flex: 10;">
+              <p class="title" [lang]="lang">{{'help5' | translate}}  <a href="https://wa.me/966532103300">{{'help6' | translate}}</a> {{'help7' | translate}}</p>
+            </div>
+            
+          </ion-col>
+        </div>
+      </ion-row>
+      <br />
+      <ion-row>
         <div class="help-container table">
           <ion-col class="table-cell">
+           
             <div style="flex: 10">
               <p class="title" [lang]="lang">{{'help1' | translate}}</p>
             </div>
+            <br>
             <div style="flex: 10">
               <button
                 mat-flat-button
                 class="btn-general"
                 disbaled
                 [lang]="lang"
-              >
+               >
                 {{'presstocall' | translate}}
               </button>
             </div>
