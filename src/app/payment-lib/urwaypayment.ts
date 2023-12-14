@@ -2,7 +2,7 @@
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import CryptoJS from 'crypto-js';
-import QueryString from 'queryString';
+//import QueryString from 'queryString';
 
 //const publicIp = require('public-ip');
 import { RespCode } from './response-code';
@@ -19,8 +19,8 @@ export class URWAYPayment {
   resp_targeturl: any;
   resp_result: any;
   resp_respcode: any;
-  private sharedMethods : SharedMethodsService
-  constructor(private http: HTTP, private network: Network, ) {}
+  private sharedMethods: SharedMethodsService;
+  constructor(private http: HTTP, private network: Network,) { }
 
   // ProcessPayment(requestData) {
   //   return new Promise((resolve, reject) => {
@@ -598,7 +598,7 @@ export class URWAYPayment {
 
                       respMsg = RespCode[responsecode];
                       console.log('Respon code Msg' + respMsg);
-                      this.sharedMethods.presentToast(respMsg, 'primary')
+                      this.sharedMethods.presentToast(respMsg, 'primary');
                       const json = {
                         result: transResponse['result'],
                         responsecode: transResponse['responsecode'],
@@ -644,7 +644,7 @@ export class URWAYPayment {
                   } else {
                     console.log(
                       'RESPONSE responsecode else **** ' +
-                        this.resp_result['result']
+                      this.resp_result['result']
                     );
                     //                  this.ProcessTransactEnqPayment(requestData,this.resp_result["tranid"])
                     //   .then((response: any) =>

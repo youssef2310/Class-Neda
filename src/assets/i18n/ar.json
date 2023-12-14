@@ -15,7 +15,7 @@
   "enteryourmobilenumber": "رقم الجوال",
   "registerationmessage": "لنتمكن من تقديم الخدمة بأفضل شكل ممكن نرجو التكرم بتسجيل الدخول برقم الجوال فقط",
   "wearehappytoserveyou": "يسعدنا خدمتكم...",
-  "userverification": "سيتم ارسال رمز التفعيل كرسالة نصية وايضا كرسالة واتساب. فضلا انتظر.",
+  "userverification": "سيتم ارسال رمز التفعيل كرسالة واتساب. فضلا انتظر.",
   "userverificationHelp1": "واذا لم يصلك الرمز خلال دقيقتين فضلا تواصل مع الدعم الفني بالضغط",
   "userverificationHelp2": "(هنا)",
   "mobileverification": "تأكيد الجوال",
@@ -55,6 +55,5 @@
   "No": "لا",
   "You can not delegate yourself": "لا يمكنك تفويض نفسك",
   "You can not repeat the same delegate number": "لا يمكنك تكرار نفس رقم المفوض",
-  "Delegates" : "المفوضون"
-
+  "Delegates": "المفوضون"
 }

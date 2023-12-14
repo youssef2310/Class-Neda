@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { SharedMethodsService } from '../../services/shared-methods.service';
 import { ApiService } from '../../services/api.service';
 import { TranslateConfigService } from '../../services/translate-config.service';
@@ -13,6 +13,7 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./signin.page.scss'],
 })
 export class SigninPage implements OnInit {
+  @ViewChild('supportLinkhref') supportLinkhref: ElementRef<HTMLElement>;
   lang: string = '';
   mobile: number;
   countryPhoneCode: string = '966';
@@ -32,7 +33,7 @@ export class SigninPage implements OnInit {
     this.apiService.checkVerificationStatus();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   register() {
     let phone: number;
@@ -198,8 +199,8 @@ export class SigninPage implements OnInit {
           this.apiService
             .updateLanguage(localStorage.getItem('lang'))
             .subscribe(
-              (res) => {},
-              (error) => {}
+              (res) => { },
+              (error) => { }
             );
           this.onSignInSubmit();
           this.apiService
@@ -230,7 +231,7 @@ export class SigninPage implements OnInit {
         {
           text: close,
           role: 'cancel',
-          handler: () => {},
+          handler: () => { },
           cssClass: 'alert-color',
         },
         {
@@ -238,7 +239,10 @@ export class SigninPage implements OnInit {
           cssClass: 'alert-color',
           role: 'confirm',
           handler: () => {
-            window.open('https://wa.me/966532103300', '_system');
+            this.supportLinkhref.nativeElement.click();
+            window.open('https://wa.me/966532103300', '_blank');
+            //his.router.navigateByUrl('https://wa.me/966532103300');
+
           },
         },
       ],

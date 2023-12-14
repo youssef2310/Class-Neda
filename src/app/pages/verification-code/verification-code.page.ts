@@ -24,7 +24,7 @@ export class VerificationCodePage implements OnInit {
     this.apiService.checkVerificationStatus();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   verifyCode() {
     console.log(this.code);
@@ -52,7 +52,7 @@ export class VerificationCodePage implements OnInit {
         console.log(res);
         if (res && res.user) {
           let staticCode = localStorage.getItem('smsCode');
-          localStorage.setItem('verified', '1')
+          localStorage.setItem('verified', '1');
           this.router.navigate(['/tabs/home']);
           // this.apiService.verifyCode(staticCode).subscribe(
           //   (res) => {
@@ -103,26 +103,30 @@ export class VerificationCodePage implements OnInit {
   // this called only if user entered full code
   onCodeCompleted(code: string) {
     console.log(code);
+    let msg = '';
     this.code = code;
     if (this.code.length == 6) {
       if (this.code === this.parentData.pw) {
-        localStorage.setItem('verified', '1')
+        localStorage.setItem('verified', '1');
         this.router.navigate(['/tabs/home'], {
           relativeTo: this.route,
         });
-      }else if(this.code === localStorage.getItem('wtsp_code')){
-        localStorage.setItem('verified', '1')
+      } else if (this.code === localStorage.getItem('wtsp_code')) {
+        localStorage.setItem('verified', '1');
         this.router.navigate(['/tabs/home'], {
           relativeTo: this.route,
         });
       }
-       else {
+      else {
         console.log('sms code');
-        this.verifyCode();
+        //this.verifyCode();
+        if (this.lang == 'en') msg = 'Verification Code is incorrect';
+        else msg = 'رمز التحقق غير صحيح';
+        this.apiService.sharedMethods.presentToast(msg, 'danger');
       }
     }
   }
-  callSupport(){
+  callSupport() {
     window.open('https://wa.me/966532103300', '_system');
   }
 }

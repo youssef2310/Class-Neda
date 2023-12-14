@@ -18,7 +18,7 @@ import { Subject } from 'rxjs';
 import { URWAYPayment } from '../payment-lib/urwaypayment';
 import { ApiService } from './api.service';
 
-import QueryString from 'queryString';
+//import QueryString from 'queryString';
 
 @Injectable({
   providedIn: 'root',
@@ -384,11 +384,11 @@ export class PaymentService {
                               console.log(JSON.parse(respObj)['respMsg']);
                               console.log(
                                 'In ProcessTransactEnqPayment RESOLVE ' +
-                                  JSON.stringify(response)
+                                JSON.stringify(response)
                               );
                               console.log(
                                 'In ProcessTransactEnqPayment STATUS ' +
-                                  response.status
+                                response.status
                               );
 
                               this.paymentTransactionMessage = JSON.parse(
@@ -396,16 +396,16 @@ export class PaymentService {
                               );
                               console.log(
                                 'In ProcessTransactEnqPayment DATA ' +
-                                  JSON.stringify(this.paymentTransactionMessage)
+                                JSON.stringify(this.paymentTransactionMessage)
                               );
                               console.log(
                                 'In ProcessTransactEnqPaymentAMOUNT ' +
-                                  this.paymentTransactionMessage['amount']
+                                this.paymentTransactionMessage['amount']
                               );
                               // this.paymentTransactionMessage=JSON.stringify(response);
                               if (
                                 this.paymentTransactionMessage[
-                                  'responsecode'
+                                'responsecode'
                                 ] == '000'
                               ) {
                                 this.apiService
@@ -431,7 +431,7 @@ export class PaymentService {
                                   this.paymentTransactionMessage['cardToken'],
                                 respCode:
                                   this.paymentTransactionMessage[
-                                    'responsecode'
+                                  'responsecode'
                                   ],
                                 maskedpan:
                                   this.paymentTransactionMessage['maskedpan'],
@@ -455,7 +455,7 @@ export class PaymentService {
 
                           console.log(
                             'In ProcessTransactEnqPayment RESOLVE AMOUNT  ' +
-                              this.paymentTransactionMessage['amount']
+                            this.paymentTransactionMessage['amount']
                           );
 
                           responseMsgConfig.startTrxn = false;
@@ -525,7 +525,7 @@ export class PaymentService {
                     this.paymentMessage = JSON.parse(response.redirectUrl);
                     console.log(
                       'this.paymentMessage other' +
-                        JSON.stringify(this.paymentMessage)
+                      JSON.stringify(this.paymentMessage)
                     );
                     console.log('other else part');
                     resolve({
