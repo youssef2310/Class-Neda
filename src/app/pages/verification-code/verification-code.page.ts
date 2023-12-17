@@ -120,9 +120,12 @@ export class VerificationCodePage implements OnInit {
       else {
         console.log('sms code');
         //this.verifyCode();
-        if (this.lang == 'en') msg = 'Verification Code is incorrect';
-        else msg = 'رمز التحقق غير صحيح';
-        this.apiService.sharedMethods.presentToast(msg, 'danger');
+        console.log(this.code.endsWith('_'));
+        if (!this.code.endsWith('_')) {
+          if (this.lang == 'en') msg = 'Verification Code is incorrect';
+          else msg = 'رمز التحقق غير صحيح';
+          this.apiService.sharedMethods.presentToast(msg, 'danger');
+        }
       }
     }
   }
