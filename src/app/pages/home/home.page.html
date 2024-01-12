@@ -1,156 +1,138 @@
-<ion-header class="ion-no-border" [lang]="lang">
+<!-- <ion-header class="ion-no-border" [lang]="lang">
   <ion-toolbar>
     <ion-buttons
       slot="start"
       class="ion-padding-vertical"
-      routerLink="/tabs/notification"
+      routerLink="/tabs/settings"
     >
       <ion-icon
-        name="notifications"
+        name="settings-outline"
         size="medium"
         slot="icon-only"
         color="light"
+        class="setting-icon"
       ></ion-icon>
-      <ion-badge
-        class="notifications-badge"
-        color="danger"
-        *ngIf="notifiCount > 0"
-      >
-        {{notifiCount }}</ion-badge
-      >
     </ion-buttons>
-    <!-- <ion-title header-title>
-      
-    </ion-title> -->
+
     <ion-label slot="end" header-title>
       <ion-row style="white-space: nowrap">
         <div style="flex: 1"></div>
         <ion-col>
-          <p class="client-name" *ngIf="parentData && parentData.name">
-            {{ !isDeleted ? parentData.name : ''}}
-          </p>
-          <p class="mobile-number" *ngIf="parentData && parentData?.mob">
-            +{{parentData.mob}}
-          </p>
+          <p class="client-name">{{ user.name}}</p>
+          <p class="mobile-number">+966{{user.mob}}</p>
         </ion-col>
         <img src="assets/image/avatar-home-img.svg" class="avatar-img" />
       </ion-row>
     </ion-label>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
 
-<ion-content [lang]="lang">
+<ion-content [lang]="lang" dir="rtl">
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content> </ion-refresher-content>
   </ion-refresher>
-  <ion-grid *ngIf="parentList">
-    <ion-col *ngIf="!isDeleted ">
-      <ion-row *ngFor="let school of parentList" style="margin-bottom: 30px">
-        <ion-card>
-          <ion-card-header>
-            <ion-row>
-              <div style="flex: 1"></div>
-              <span class="school-name">{{school.school.name}}</span>
-              <img
-                [src]="  school?.school?.image ?  school?.school?.image : 'assets/image/school-img.png'"
-                class="school-img"
-              />
-            </ion-row>
-          </ion-card-header>
+  <ion-spinner color="primary" *ngIf="isLoading"></ion-spinner>
 
-          <ion-card-content>
-            <ion-row
-              *ngFor="let student of school.students; let last = last"
-              [ngClass]=" last ? '' : 'next-line' "
+  <ion-row class="ion-padding">
+    <ion-col size="3">
+      <img src="assets/image/avatar-home-img.svg" width="40px" />
+    </ion-col>
+    <ion-col class="page-title" size="6">
+      <span> {{'home' | translate}} </span>
+    </ion-col>
+    <ion-col size="3" style="text-align: end">
+      <ion-icon
+        style="font-size: 28px"
+        routerLink="/tabs/settings"
+        src="assets/icon/settings-top.svg"
+      ></ion-icon>
+    </ion-col>
+  </ion-row>
+
+  <!-- <ion-list [inset]="true" *ngIf="students && students.length">
+    <ion-item
+      [button]="true"
+      detail="false"
+      *ngFor="let student of students"
+      [ngClass]="student.lefttime  ? 'left-time' : student.flag == 'range' ?  'range' : student.flag == 'call' ? 'call' : '' "
+      (click)="approveCalling(student)"
+    >
+      <div class="unread-indicator-wrapper" slot="start">
+        <div class="unread-indicator"></div>
+      </div>
+      <ion-label>
+        <strong>{{student.name}}</strong>
+        <ion-text>{{student.classno}}</ion-text><br />
+      </ion-label>
+      <div class="metadata-end-wrapper" slot="end">
+        <ion-note
+          >{{student.lefttime ? student.lefttime : student.time}}</ion-note
+        >
+        <ion-icon name="chevron-back"></ion-icon>
+      </div>
+    </ion-item>
+  </ion-list> -->
+
+  <ion-row style="margin-top: -15px;" class="ion-padding-horizontal" *ngIf="students && students.length">
+    <ion-col
+      size="12"
+      style="height: 80px !important"
+      *ngFor="let student of students; let index = index"
+    >
+      <ion-card>
+        <ion-card-content (click)="tapevent(student)">
+          <ion-row>
+            <ion-col size="2">
+              <div
+                class="index-container table"
+                [ngStyle]="{'background-color': student.lefttime ? '#171717' : (student.flag == 'range' ? '#dd0607' : '#009F3D') }"
+              >
+                <span class="tabel-cell">{{index + 1}}</span>
+              </div>
+            </ion-col>
+            <ion-col
+              size="6"
+              [ngStyle]="{'color': student.lefttime ? '#171717' : (student.flag == 'range' ? '#dd0607' : '#009F3D') }"
             >
-              <ion-col>
-                <ion-row>
-                  <div style="text-align: start; flex: 3">
-                    <img
-                      (click)="viewQrCode(student)"
-                      [src]=" student.image ? student.image :  'assets/image/avatar-home-img.svg' "
-                      width="75px"
-                      height="75px"
-                    />
-                  </div>
-                  <div style="flex: 3; text-align: end; padding-top: 7%">
-                    <span class="student-name" *ngIf="student.name"
-                      >{{student.name}}</span
-                    >
-                  </div>
-                </ion-row>
-                <ion-row>
-                  <button
-                    mat-flat-button
-                    [ngClass]="(school.school.fees > 0 && !student.paid) ? 'payment-invalid' : 'payment-valid' "
-                    class="btn-general"
-                    [disabled]="student.call_student == 'disable' || isLoading"
-                    (click)="callStudent(student,school)"
-                    *ngIf="student.button && !isOffline"
-                  >
-                    <span  *ngIf="!student.loading">{{student.button}}</span>
-                    <ion-spinner
-                      *ngIf="student.loading"
-                      name="lines"
-                      style="--color: #fff !important"
-                    ></ion-spinner>
-                  </button>
-                  <button
-                    mat-flat-button
-                    class="btn-general payment-invalid"
-                    disabled
-                    *ngIf="student.button && isOffline"
-                  >
-                    {{'No Internet' | translate}}
-                  </button>
-                </ion-row>
-                <br />
-                <ion-row *ngIf="student.lbl">
-                  <div
-                    style="
-                      flex: 10;
-                      text-align: center;
-                      color: darkslategray;
-                      font-weight: bold;
-                      padding: 7px;
-                      border-radius: 20px;
-                      border: 1px solid gray;
-                    "
-                    *ngIf="lang == 'en'"
-                  >
-                    {{student.lbl.split('*')[0]}}
-                  </div>
-                  <div
-                    style="
-                      flex: 10;
-                      text-align: center;
-                      color: darkslategray;
-                      font-weight: bold;
-                      padding: 7px;
-                      border-radius: 20px;
-                      border: 1px solid gray;
-                    "
-                    *ngIf="lang == 'ar'"
-                  >
-                    {{student.lbl.split('*')[1]}}
-                  </div>
-                </ion-row>
-              </ion-col>
-            </ion-row>
-          </ion-card-content>
-        </ion-card>
-      </ion-row>
+              <p class="student-name">{{student.name}}</p>
+              <p class="class-name">{{student.classno}}</p>
+            </ion-col>
+            <ion-col size="4" style="text-align: end;">
+              <div class="image-container" [ngStyle]="{'background-image': getBackgroundImage(student)}">
+                <!-- <img
+                  src="assets/image/green-time.png"
+                  *ngIf="student.flag == 'call' && !student.lefttime "
+                />
+                <img
+                  src="assets/image/red-time.png"
+                  *ngIf="student.flag == 'range'"
+                />
+                <img
+                  src="assets/image/black-time.png"
+                  *ngIf="student.lefttime && student.flag == 'call' "
+                /> -->
+
+                <span class="text-inside"
+                  >{{student.lefttime ? student.lefttime : student.time}}</span
+                >
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-card-content>
+      </ion-card>
     </ion-col>
-    <ion-col *ngIf="isDeleted">
-      <ion-row>
-        <div style="flex: 10; text-align: center">
-          <h2 style="font-weight: bold; font-size: 25px; margin-top: 50%">
-            You have no children
-          </h2>
-        </div>
-      </ion-row>
-    </ion-col>
-  </ion-grid>
+  </ion-row>
+
+  <ion-col *ngIf="(!selectedClasses || !selectedClasses.length) && !isLoading">
+    <ion-row class="ion-padding-horizontal">
+      <div style="flex: 10; text-align: center">
+        <h2 style="font-weight: bold; font-size: 25px; margin-top: 50%; color: #4E1471;">
+          {{'School code & classes not defined yetplease go to setup screen' |
+          translate}}
+        </h2>
+      </div>
+    </ion-row>
+  </ion-col>
 </ion-content>
 
 <!-- ;

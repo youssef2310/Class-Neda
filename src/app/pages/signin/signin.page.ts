@@ -2,8 +2,6 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { SharedMethodsService } from '../../services/shared-methods.service';
 import { ApiService } from '../../services/api.service';
 import { TranslateConfigService } from '../../services/translate-config.service';
-import * as firebase from 'firebase';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 
@@ -18,24 +16,22 @@ export class SigninPage implements OnInit {
   mobile: number;
   countryPhoneCode: string = '966';
   loading: boolean = false;
-  recaptchaVerifier: firebase.default.auth.RecaptchaVerifier;
   confirmationResult: any;
   verificationStatus: boolean = false;
+  userName: string = '';
   constructor(
     private translateConfigService: TranslateConfigService,
     private apiService: ApiService,
     private sharedMethods: SharedMethodsService,
     private router: Router,
-    private fireAuth: AngularFireAuth,
     private alertController: AlertController
   ) {
     this.lang = this.translateConfigService.getCurrentLang();
-    this.apiService.checkVerificationStatus();
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
-  register() {
+  login() {
     let phone: number;
     phone = this.mobile;
     let msg: string = '';
@@ -46,173 +42,31 @@ export class SigninPage implements OnInit {
         msg = 'يرجى ملء الحقول المطلوبة';
       }
       this.sharedMethods.presentToast(msg, 'danger', 'testToast');
-
       return;
     }
-    // if (String(phone).charAt(0) === '0') {
-    //   phone = String(phone).substr(1);
-    //   //console.log(phone);
-    // }
-
     if (String(phone).length < 8) {
       if (this.lang == 'en') msg = 'Mobile Number must be at least 9 digits';
       else msg = 'يجب أن يتكون رقم الجوال من ٩ ارقام';
-
       this.sharedMethods.presentToast(msg, 'danger', 'testToast');
-
       return;
     }
-
     phone = (this.countryPhoneCode + String(phone)) as any;
-    // console.log(this.mobile);
     if (!String(phone).match(/^\d+$/)) {
       if (this.lang == 'en') msg = 'Please enter the numbers in english';
       else msg = 'يرجي ادخال الارقام باللغه الانجليزيه';
       this.sharedMethods.presentToast(msg, 'danger', 'testToast');
-
       return;
     }
-
     localStorage.setItem('countryCode', this.countryPhoneCode);
-
-    localStorage.setItem('mobile', String(phone));
-
+    localStorage.setItem('mobile', String(this.mobile));
+    localStorage.setItem('userName', this.userName);
     this.loading = true;
-    this.apiService.login(phone).subscribe(
-      (res) => {
-        console.log(res);
-        this.loading = false;
-        if (
-          String(phone) !== '966588888888' &&
-          localStorage.getItem('accountDeleted')
-        ) {
-          localStorage.removeItem('accountDeleted');
-        }
-        if (localStorage.getItem('smsCode')) {
-          this.getToken();
-        }
-      },
-      (error) => {
-        console.log(error);
-        this.loading = false;
-        this.sharedMethods.presentToast(
-          error.error.message,
-          'danger',
-          'testToast'
-        );
-      }
-    );
+    this.checkUserExistance(this.mobile);
   }
 
   changeLanguage(lang) {
     this.translateConfigService.setLanguage(lang);
     this.lang = lang;
-  }
-
-  ionViewDidEnter() {
-    this.recaptchaVerifier = new firebase.default.auth.RecaptchaVerifier(
-      'recaptcha-container',
-      {
-        size: 'invisible',
-        callback: (response) => {
-          // reCAPTCHA solved, allow signInWithPhoneNumber.
-          this.onSignInSubmit();
-        },
-      }
-    );
-  }
-
-  onSignInSubmit() {
-    console.log('hello');
-    this.loading = true;
-    this.fireAuth
-      .signInWithPhoneNumber(
-        '+' + this.countryPhoneCode + this.mobile,
-        this.recaptchaVerifier
-      )
-      .then((res) => {
-        this.loading = false;
-        this.confirmationResult = res;
-        console.log(this.confirmationResult);
-        this.apiService.sharedVariables.verifyCode = this.confirmationResult;
-        let msg =
-          this.translateConfigService.translate.instant('smsmcodewassent');
-        this.apiService.sharedMethods.presentToast(msg, 'primary', 'testToast');
-        this.router.navigate(['/verfication-code']);
-      })
-      .catch((err) => {
-        this.loading = false;
-        let msg =
-          this.translateConfigService.translate.instant('smsmcodewassent');
-        this.apiService.sharedMethods.presentToast(msg, 'primary', 'testToast');
-        this.router.navigate(['/verfication-code']);
-        // this.recaptchaVerifier.render().then((widgetID) => {
-        //   this.reset(widgetID);
-        // });
-        // if(err.code !== '400')
-        // this.apiService.sharedMethods.presentToast(err.message, 'danger');
-      });
-  }
-
-  testOtp() {
-    // this.firebaseAuthentication
-    //   .verifyPhoneNumber('+201001404967', 30)
-    //   .then((res) => {
-    //     console.log(res);
-    //     this.firebaseAuthentication
-    //       .signInWithVerificationId(res, '121212')
-    //       .then((res) => {
-    //         console.log(res);
-    //       });
-    //   });
-  }
-
-  getToken() {
-    let staticCode = localStorage.getItem('smsCode');
-    this.apiService.verifyCodePassword(staticCode).subscribe(
-      (res) => {
-        //console.log(res)
-        this.loading = false;
-        this.checkUserExistence();
-        localStorage.setItem('verified', '0');
-        //this.router.navigate(['/tabs/home']);
-      },
-      (error) => {
-        this.loading = false;
-      }
-    );
-  }
-
-  checkUserExistence(observe?) {
-    this.apiService.sharedMethods.startLoad();
-    this.apiService.getParentChildren(observe).subscribe(
-      (res: any) => {
-        this.apiService.sharedMethods.dismissLoader();
-        if (!res || !res.result || !res['parent']) {
-          // let msg = this.translateConfigService.translate.instant(
-          //   'Not Registered for this service'
-          // );
-          // this.apiService.sharedMethods.presentToast(msg, 'primary');
-          this.contactTechSupport();
-          return;
-        } else {
-          this.apiService
-            .updateLanguage(localStorage.getItem('lang'))
-            .subscribe(
-              (res) => { },
-              (error) => { }
-            );
-          this.onSignInSubmit();
-          this.apiService
-            .sendCodeWhatsapp(this.countryPhoneCode + this.mobile)
-            .subscribe();
-          return;
-        }
-      },
-      (error) => {
-        this.apiService.sharedMethods.dismissLoader();
-      }
-    );
   }
 
   async contactTechSupport() {
@@ -231,7 +85,7 @@ export class SigninPage implements OnInit {
         {
           text: close,
           role: 'cancel',
-          handler: () => { },
+          handler: () => {},
           cssClass: 'alert-color',
         },
         {
@@ -242,12 +96,37 @@ export class SigninPage implements OnInit {
             this.supportLinkhref.nativeElement.click();
             window.open('https://wa.me/966532103300', '_blank');
             //his.router.navigateByUrl('https://wa.me/966532103300');
-
           },
         },
       ],
     });
 
     await alert.present();
+  }
+
+  checkUserExistance(mobile: any) {
+    this.apiService
+      .fetchData({ code: mobile }, 'neda_parents')
+      .subscribe((res) => {
+        this.loading = false;
+        console.log(res);
+        if (res && res['result'].length) {
+          localStorage.setItem('user', JSON.stringify(res['result'][0]));
+          this.apiService
+            .sendCodeWhatsapp(this.countryPhoneCode + this.mobile)
+            .subscribe((res) => {});
+          let msg =
+            this.translateConfigService.translate.instant('smsmcodewassent');
+          this.apiService.sharedMethods.presentToast(
+            msg,
+            'primary',
+            'testToast'
+          );
+          this.loading = false;
+          this.router.navigate(['/verfication-code']);
+        } else {
+          this.contactTechSupport();
+        }
+      });
   }
 }

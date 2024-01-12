@@ -131,3 +131,17 @@ ion-row {
     font-size: 22px;
   }
 }
+
+.profile-header-container {
+  background-image: url("../../../assets/image/profile-header-img.png");
+  background-size: cover;
+  height: 235px !important;
+ // position: relative;
+}
+
+.user-avatar {
+  width: 35%;
+  margin: auto;
+  margin-top: 30px;
+  
+}

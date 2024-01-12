@@ -1,13 +1,14 @@
 ion-tab-bar {
   padding-bottom: env(safe-area-inset-bottom) !important;
   --padding-bottom: env(safe-area-inset-bottom) !important;
-  --background: linear-gradient(to left, #8b3cce 0%, #060690 100%) !important;
+  --background: #FFFFFF !important;
   min-height: 60px !important;
 }
 
 ion-tab-button {
   background: transparent !important;
   --background: transparent !important;
+  padding-top: 5px;
 }
 
 ion-label {

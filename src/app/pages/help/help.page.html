@@ -1,4 +1,4 @@
-<ion-header class="ion-no-border">
+<!-- <ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start" class="ion-no-margin">
       <ion-back-button
@@ -10,92 +10,143 @@
     </ion-buttons>
     <ion-title header-title [lang]="lang">{{'help' | translate}}</ion-title>
   </ion-toolbar>
-</ion-header>
-<ion-content class="ion-padding" [lang]="lang">
+</ion-header> -->
+<ion-content
+  class="ion-padding"
+  [lang]="lang"
+  [dir]="lang ==  'ar' ? 'rtl' : 'ltr' "
+>
   <ion-grid [lang]="lang">
     <ion-col>
+      <ion-row class="ion-padding-vertical" dir="rtl">
+        <ion-col size="3"> </ion-col>
+        <ion-col class="page-title" size="6">
+          <span> {{'help' | translate}} </span>
+        </ion-col>
+        <ion-col size="3" style="text-align: end">
+          <ion-icon
+            (click)="location.back()"
+            style="font-size: 28px"
+            src="assets/icon/back-icon.svg"
+          ></ion-icon>
+        </ion-col>
+      </ion-row>
+      <br />
       <ion-row>
-        <div class="help-container-support table">
-          <ion-col class="table-cell">
-            <div class=" mb-4" style="flex: 10;">
-              <p class="title" [lang]="lang">{{'help5' | translate}}  <a href="https://wa.me/966532103300">{{'help6' | translate}}</a> {{'help7' | translate}}</p>
+        <ion-col size="10">
+          <div class="mb-4" style="flex: 10">
+            <p
+              class="title"
+              [lang]="lang"
+              
+            >
+              {{'help5' | translate}}
+              <a href="https://wa.me/966532103300">{{'help6' | translate}}</a>
+              {{'help7' | translate}}
+            </p>
+          </div>
+        </ion-col>
+        <ion-col size="2" style="text-align: end !important">
+          <div style="flex: 1">
+            <img
+              src="assets/image/whatsapp-img.png
+            "
+            />
+          </div>
+        </ion-col>
+      </ion-row>
+      <br />
+
+      <ion-row>
+        <ion-card>
+          <ion-card-header>
+            <ion-row>
+              <span class="card-title">{{'Color Code' | translate}} </span>
+              <div style="flex: 1"></div>
+            </ion-row>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-row>
+              <ion-col size="3">
+                <div class="color-container green-background">
+                  <span class="tabel-cell"> {{'Green' | translate}} </span>
+                </div>
+              </ion-col>
+              <ion-col size="9">
+                <span class="color-text">
+                  {{'parent clicked on call button. Student must leave immediately' | translate}}
+                </span>
+              </ion-col>
+            </ion-row>
+            <hr style="background: #CDD4D9;">
+            <ion-row>
+              <ion-col size="3">
+                <div class="color-container red-background">
+                  <span class="tabel-cell"> {{'Red' | translate}} </span>
+                </div>
+              </ion-col>
+              <ion-col size="9">
+                <span class="color-text">
+                  {{'parent is almost reaches to school. Student should get ready to leave' | translate}}
+                </span>
+              </ion-col>
+            </ion-row>
+            <hr style="background: #CDD4D9;">
+            <ion-row>
+              <ion-col size="3">
+                <div class="color-container black-background">
+                  <span class="tabel-cell"> {{'Black' | translate}} </span>
+                </div>
+              </ion-col>
+              <ion-col size="9">
+                <span class="color-text">
+                  {{'Student already left the class after teacher clicked on student name' | translate}}
+                </span>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ion-row>
+      <br>
+      <ion-row class="help-container tabel">
+          <ion-col size="3" class="tabel-cell">
+            <div>
+              <img src="assets/image/green-avatar.png" width="60px" />
             </div>
-            
           </ion-col>
-        </div>
-      </ion-row>
-      <br />
-      <ion-row>
-        <div class="help-container table">
-          <ion-col class="table-cell">
-           
-            <div style="flex: 10">
-              <p class="title" [lang]="lang">{{'help1' | translate}}</p>
-            </div>
-            <br>
-            <div style="flex: 10">
-              <button
-                mat-flat-button
-                class="btn-general"
-                disbaled
-                [lang]="lang"
-               >
-                {{'presstocall' | translate}}
-              </button>
-            </div>
+          <ion-col size="9" class="tabel-cell">
+            <span class="color-text " style="color: #000 !important; font-weight: bolder;">
+              {{'If student name is Green, the teacher can click on the student name to save the time he leaves the classroom' | translate}}
+            </span>
           </ion-col>
-        </div>
       </ion-row>
       <br />
+
+
+
       <ion-row>
-        <div class="help-container">
-          <ion-row>
-            <ion-col size="6" class="tabel">
-              <img src="assets/image/speaker-img.png" class="img tabel-cell" />
-            </ion-col>
-
-            <ion-col size="6" class="tabel">
-              <p class="title tabel-cell" style="text-align: end" [lang]="lang">
-                {{'help2' | translate}}
-              </p>
-            </ion-col>
-          </ion-row>
-        </div>
-      </ion-row>
-
-
-      <br />
-      <ion-row>
-        <div class="help-container">
-          <ion-row>
-            <ion-col size="6" class="tabel">
-              <img src="assets/image/screen-img.png" class="img tabel-cell" />
-            </ion-col>
-
-            <ion-col size="6" class="tabel">
-              <p class="title tabel-cell" style="text-align: end" [lang]="lang">
-                {{'help3' | translate}}
-              </p>
-            </ion-col>
-          </ion-row>
-        </div>
-      </ion-row>
-
-      <br />
-      <ion-row>
-        <div class="help-container">
-          <ion-row>
-            <ion-col size="6" class="tabel">
-              <img src="assets/image/qrcode-img.svg" class="img tabel-cell" />
-            </ion-col>
-
-            <ion-col size="6" class="tabel">
-              <p class="title tabel-cell" style="text-align: end" [lang]="lang">
-                {{'help4' | translate}}
-              </p>
-            </ion-col>
-          </ion-row>
-        </div>
+        <ion-card>
+          <ion-card-header>
+            <ion-row>
+              <span class="card-title">{{'Settings' | translate}} </span>
+              <div style="flex: 1"></div>
+            </ion-row>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-row>
+              <ion-col size="3">
+                
+                 <img src="assets/image/stars-check.png" width="55px" />
+                
+              </ion-col>
+              <ion-col size="9">
+                <span class="color-text">
+                  {{'Select classes by checking the box besides class name. Teacher will select one class while duty teacher will select multiple classes' | translate}}
+                </span>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
       </ion-row>
     </ion-col>
   </ion-grid>

@@ -30,66 +30,47 @@ ion-toolbar {
   font-size: 14px;
 }
 
-ion-card {
-  width: 85%;
-  margin: auto;
-}
-ion-card-header {
-  background-image: url(../../../assets/image/card-background-img.svg);
-  background-size: cover;
-  height: 75px;
-}
-ion-card-content {
-  width: 90%;
-  white-space: nowrap;
-  margin: auto;
+.unread-indicator {
+  background: var(--ion-color-primary);
+
+  width: 10px;
+  height: 10px;
+
+  border-radius: 100%;
+
+  position: absolute;
+
+  inset-inline-start: 12px;
+  top: 12px;
 }
 
-.school-img {
-  width: 45px;
-  height: 45px;
-  margin-top: -10px;
-  margin-left: 12px;
-  border-radius: 50% !important;
+.metadata-end-wrapper {
+  position: absolute;
+
+  top: 10px;
+  inset-inline-end: 10px;
+
+  font-size: 0.8rem;
+
+  display: flex;
+  align-items: center;
 }
 
-.school-name {
-  //margin-top: 5px;
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 600;
-  opacity: 1;
+ion-label strong {
+  display: block;
+
+  max-width: calc(100% - 60px);
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
 }
 
-.student-name {
-  font-size: 20px;
-  color: #505050;
-  font-weight: bold;
-}
-.btn-general {
-  width: 100%;
-  font-size: 12px !important;
+ion-label ion-note {
+  font-size: 0.9rem;
 }
 
-.next-line {
-  border-bottom: 1px solid #cecece;
-  padding-bottom: 20px;
-}
-
-.card-item .titel {
-  color: #234294;
-}
-
-.isReaded {
-  background-color: #dce5ff;
-  box-shadow: -1px 0px 1px #efefef9c;
-}
-
-.noti-count {
-  text-align: right;
-}
-
-ion-icon {
+.setting-icon {
   --color: #ffff !important;
   --ion-color-base: #fff !important;
   font-size: 26px !important;
@@ -105,11 +86,113 @@ ion-icon {
   margin-top: -10px;
 }
 
-
-.payment-valid{
-  background: linear-gradient(to left, #8b3cce 0%, #060690 100%) !important;
+ion-list {
+  border-radius: 15px !important;
 }
 
-.payment-invalid{
-  background: red !important;
+ion-spinner {
+  position: relative;
+  right: 45%;
+  top: 45%;
+  z-index: 1000;
+  width: 60px;
+  height: 60px;
+}
+
+.left-time {
+  .unread-indicator {
+    background: black !important;
+  }
+  ion-icon {
+    --color: #000 !important;
+    --ion-color-base: #000 !important;
+  }
+  ion-note {
+    color: #000 !important;
+  }
+  color: #000 !important;
+}
+.range {
+  .unread-indicator {
+    background: red !important;
+  }
+  ion-icon {
+    --color: red !important;
+    --ion-color-base: red !important;
+  }
+  ion-note {
+    color: red !important;
+  }
+  color: red !important;
+}
+.call {
+  .unread-indicator {
+    background: green !important;
+  }
+  ion-icon {
+    --color: green !important;
+    --ion-color-base: green !important;
+  }
+  ion-note {
+    color: green !important;
+  }
+  color: green !important;
+}
+
+ion-card {
+  max-height: 70px !important;
+  border-radius: 10px;
+  box-shadow: 5px 5px #a5adba26;
+}
+
+.index-container {
+  border-radius: 50%;
+  min-width: 30px;
+  min-height: 30px;
+  height: 30px;
+  width: 30px;
+  text-align: center;
+  color: white !important;
+  font-size: 15px;
+}
+.table {
+  display: table;
+}
+.tabel-cell {
+  vertical-align: middle;
+  display: table-cell;
+}
+
+.student-name {
+  height: 12px;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.class-name {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.image-container {
+  width: 40px;
+  height: 40px;
+  margin-top: -10px;
+  text-align: end;
+  // background-image: url("../../../assets/image/red-time.png");
+  background-size: cover;
+  display: table;
+  margin-right: 2rem;
+
+}
+
+.text-inside {
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  font-size: 13px;
+  vertical-align: middle;
+  display: table-cell;
+  margin-top: 13px;
+  padding-top: 18px;
 }

@@ -1,0 +1,49 @@
+<ion-header class="ion-no-border" style="direction: ltr !important">
+  <ion-toolbar style="direction: ltr !important" class="ion-padding">
+    <button
+      slot="start"
+      mat-raised-button
+      (click)="cancelChanges()"
+      class="inactive-lang"
+    >
+      {{ "Cancel" | translate }}
+    </button>
+
+    <ion-title class="page-title" [lang]="lang">{{
+      "Classes" | translate
+    }}</ion-title>
+
+    <button
+      slot="end"
+      mat-raised-button
+      (click)="confirmChanges()"
+      class="active-lang"
+    >
+      {{ "Save" | translate }}
+    </button>
+  </ion-toolbar>
+
+  <ion-toolbar dir="rtl">
+    <ion-searchbar
+      placeholder="البحث"
+      (ionInput)="searchbarInput($event)"
+    ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" dir="rtl">
+  <ion-list id="modal-list" [inset]="true">
+    <ion-item
+      *ngFor="let item of filteredItems; trackBy: trackItems; let index = index"
+    >
+      <mat-checkbox
+        [value]="item"
+        [checked]="isChecked(item)"
+        [name]="index + 'index'"
+        (change)="checkboxChange($event, item)"
+        color="primary"
+        >{{ item }}</mat-checkbox
+      >
+    </ion-item>
+  </ion-list>
+</ion-content>

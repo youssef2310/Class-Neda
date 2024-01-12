@@ -1,14 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { TranslateConfigService } from '../../services/translate-config.service';
-// import { FCM } from 'cordova-plugin-fcm-with-dependecy-updated/ionic/ngx';
-import { Platform } from '@ionic/angular';
+import { IonDatetime, Platform } from '@ionic/angular';
 import { DatePipe } from '@angular/common';
-import { Payment } from '../../payment-lib/payment.model';
-import { PaymentService } from '../../services/payment.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Network } from '@ionic-native/network/ngx';
-// import * as _ from 'lodash';
+import { finalize } from 'rxjs/operators';
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -16,35 +13,62 @@ import { Network } from '@ionic-native/network/ngx';
 })
 export class HomePage implements OnInit {
   lang: string = '';
-  parentList: any[] = [];
-  parentData: any;
-  notifications: any[] = [];
-  notifiCount: number = 0;
-  paymentDate: Payment = new Payment();
-  intervalTimer;
-  isDeleted: boolean = false;
-  parentTemp: any[] = [];
   isOffline: boolean = false;
-  listPrev: any[] = [];
   isLoading: boolean = false;
+  students: any[];
+  selectedClasses: any[];
+  user: any = {};
+  intervalTimer;
+  schoolCode: string = '';
   constructor(
     private translateConfig: TranslateConfigService,
     private apiService: ApiService,
     private platform: Platform,
     private datepipe: DatePipe,
-    private paymentService: PaymentService,
     private router: Router,
     private route: ActivatedRoute,
     private network: Network
   ) {
-    let test: string = 'Student Tawfeeq is Dissmissed*لقد خرج الطالب توفيق';
-    console.log(test.split('*'));
     this.lang = this.translateConfig.getCurrentLang();
-    // this.ionViewWillEnter();
-    this.apiService.fireParentObs.subscribe((res) => {
-      this.fillParentChildren();
-    });
+  }
 
+  ngOnInit() {}
+
+  getUserData() {
+    this.apiService
+      .fetchData({ code: localStorage.getItem('mobile') }, 'neda_parents')
+      .subscribe((res) => {
+        if (res && res['result'].length) {
+          this.user = res['result'][0];
+          localStorage.setItem('user', JSON.stringify(res['result'][0]));
+          if (this.user['classes']) {
+            this.selectedClasses = String(res['result'][0]['classes']).split(
+              ','
+            );
+          } else this.selectedClasses = [];
+          this.schoolCode = this.user['school'];
+          this.fillStudentsByClasses();
+        }
+      });
+  }
+
+  ionViewWillEnter() {
+    this.getUserData();
+    this.checkInternetConnectivity();
+    this.user = JSON.parse(localStorage.getItem('user'));
+    this.intervalTimer = setInterval(() => {
+      this.fillStudentsByClasses();
+    }, 30000);
+  }
+
+  doRefresh(event) {
+    setTimeout(() => {
+      this.fillStudentsByClasses();
+      event.target.complete();
+    }, 2000);
+  }
+
+  checkInternetConnectivity() {
     if (!navigator.onLine) {
       this.isOffline = true;
       localStorage.setItem('online', '0');
@@ -73,301 +97,88 @@ export class HomePage implements OnInit {
     });
   }
 
-  ngOnInit() {}
-
-  fillParentChildren(observe?: boolean) {
-    if (this.isOffline || localStorage.getItem('online') == '0') {
-      this.parentList = JSON.parse(localStorage.getItem('parentList'));
-      this.parentData = JSON.parse(localStorage.getItem('parent'));
-      return;
-    }
-    this.parentData = undefined;
-    this.parentList = [];
-    this.apiService.sharedMethods.startLoad();
-    this.apiService.getParentChildren(observe).subscribe(
-      (res: any) => {
-        this.apiService.sharedMethods.dismissLoader();
-        if (!res || !res.result) return;
-        this.notifications = res['parent']['notifications'];
-        if (this.notifications && this.notifications.length) {
-          this.notifiCount = this.notifications.length;
-          this.notifications.forEach((e, i) => {
-            if (e.read == true) this.notifiCount -= 1;
-          });
-          localStorage.setItem('notifiCount', String(this.notifiCount));
-        }
-
-        // this.parentList.push(res?.result);
-        this.parentData = res?.parent;
-        localStorage.setItem('parent', JSON.stringify(this.parentData));
-        // console.log(this.parentData);
-        // console.log(this.parentList);
-        this.parentList = [];
-        Object.keys(res?.result).forEach((key) =>
-          this.parentList.push(res?.result[key])
-        );
-        if (!this.listPrev || !this.listPrev.length)
-          this.listPrev = this.parentList;
-        console.log(this.parentList);
-        this.parentList.forEach((item: any) => {
-          item.students.forEach((element) => {
-            element['loading'] = false;
-          });
-        });
-        localStorage.setItem('parentList', JSON.stringify(this.parentList));
-        if (!this.parentTemp.length) this.parentTemp = this.parentList;
-        //this.notifySchool();
-        this.checkPaymentStatus(this.parentList);
-      },
-      (error) => {
-        this.apiService.sharedMethods.dismissLoader();
-      }
-    );
-  }
-
-  ionViewWillEnter() {
-    this.fillParentChildren();
-    this.lang = this.translateConfig.getCurrentLang();
-    this.isDeleted = localStorage.getItem('accountDeleted') ? true : false;
-    console.log(this.isDeleted);
-
-    this.intervalTimer = setInterval(() => {
-      if (this.isOffline || localStorage.getItem('online') == '0') {
-        this.parentList = JSON.parse(localStorage.getItem('parentList'));
-        this.parentData = JSON.parse(localStorage.getItem('parent'));
-        return;
-      }
-      this.apiService.checkVerificationStatus();
-
-      this.apiService.getParentChildren().subscribe(
-        (res: any) => {
-          if (!res || !res.result) return;
-          this.notifications = res['parent']['notifications'];
-          if (this.notifications && this.notifications.length) {
-            this.notifiCount = this.notifications.length;
-            this.notifications.forEach((e, i) => {
-              if (e.read == true) this.notifiCount -= 1;
-            });
-            localStorage.setItem('notifiCount', String(this.notifiCount));
-
-            //this.notifiCount = Number(this.notifications.length);
-          }
-
-          // this.parentList.push(res?.result);
-          this.parentData = res?.parent;
-          localStorage.setItem('parent', JSON.stringify(this.parentData));
-          // console.log(this.parentData);
-          // console.log(this.parentList);
-
-          this.parentList = [];
-          Object.keys(res?.result).forEach((key) =>
-            this.parentList.push(res?.result[key])
-          );
-
-          this.parentList.forEach((element, index) => {
-            element['students'].forEach((e, i) => {
-              // let ij = 0
-              // console.log(ij++)
-              // console.log(e['lbl']);
-              // console.log(this.listPrev[index]['students'][i]['lbl']);
-              e['loading'] = false;
-              console.log(e['alert']);
-              if (e['alert'] == true) {
-                // console.log(element['school']['tone']);
-                if (e['lbl']) {
-                  console.log('played');
-                  console.log(element['school']['tone']);
-                  let audio = null;
-                  audio = new Audio();
-                  //audio.muted = true;
-                  audio.src = '';
-                  audio.src = element['school']['tone'];
-                  audio.load();
-                  audio.play().then((res) => {
-                    audio.onended = null;
-                  });
-
-                  this.updateAlertProperty(e['code']);
-                }
-              }
-            });
-          });
-
-          // console.log(this.parentList);
-        },
-        (error) => {}
-      );
-    }, 10000);
-  }
-
-  doRefresh(event) {
-    setTimeout(() => {
-      this.fillParentChildren();
-      event.target.complete();
-    }, 2000);
-  }
-
-  callStudent(student, school) {
-    if (!student) return;
-
-    if (
-      student.call_student == 'register' ||
-      (!student.paid && Number(school.school.fees) > 0)
-    ) {
-      this.translateConfig.translate
-        .get('uhavetopaythecostoftheservice')
-        .subscribe((res) => {
-          this.apiService.sharedMethods.presentToast(res, 'danger');
-        });
-      this.getReadyToPay(student, school);
-      return;
-    }
-    student['loading'] = true;
-    this.apiService
-      .callStudent(
-        student.school,
-        student.parent,
-        student.code,
-        this.getCurrentDate(),
-        false
-      )
-      .subscribe(
-        (res: any) => {
-          student['loading'] = false;
-          if (res.status_code == 1) {
-            student.call_student = 'disable';
-          }
-          // student.
-        },
-        (error) => {
-          this.isLoading = false;
-        }
-      );
-  }
-
-  notifySchool() {
-    for (let obj of this.parentList) {
-      if (obj.school.start_call === true) {
-        for (let student of obj.students) {
-          if (student.call_student == 'enable' && student.paid == true) {
-            this.getReady(student);
-          }
-        }
-      }
-    }
-  }
-
-  checkPaymentStatus(list) {
-    for (let obj of list) {
-      if (obj.school.fees === 0) {
-        console.log('true');
-        for (let student of obj.students) {
-          if (student.paid == false) {
-            this.setPaidProperty(student.code);
-          }
-        }
-      }
-    }
-  }
-
-  updateAlertProperty(code) {
-    this.apiService.updateAlertStatus(code).subscribe((res) => {});
-  }
-
-  setPaidProperty(code) {
-    this.apiService.updatePaymentStatus(code).subscribe((res) => {
-      this.fillParentChildren();
-    });
-  }
-
-  getReady(student) {
-    this.apiService
-      .callStudent(
-        student.school,
-        student.parent,
-        student.code,
-        this.getCurrentDate(),
-        true
-      )
-      .subscribe((res: any) => {
-        // student.
-        this.fillParentChildren();
-      });
-  }
-
-  getCurrentDate() {
-    let date: Date = new Date();
-    let latestDate = this.datepipe.transform(date, 'yyyy-MM-dd');
-    return String(latestDate);
-  }
-
-  checkPayment(fees, paid) {
-    console.log(fees, paid);
-    if (paid == false && Number(fees) > 0) return false;
-    else return true;
-  }
-
-  getReadyToPay(student, school) {
-    localStorage.setItem('studentCode', student.code);
-
-    console.log(school);
-    let customerName = JSON.parse(localStorage.getItem('parent')).name;
-    console.log(customerName);
-    this.paymentDate.address = school.school.name;
-    this.paymentDate.customerName = customerName;
-    this.paymentDate.trackid = 'en';
-    this.paymentDate.customerEmail =
-      localStorage.getItem('mobile') + '@autotech.sa';
-    this.paymentDate.phone = localStorage.getItem('mobile');
-    this.paymentDate.amount = school.school.fees;
-    console.log(this.paymentDate);
-    this.paymentService
-      .makePaymentService(JSON.stringify(this.paymentDate))
-      .then(
-        (res) => {
-          console.log(res);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  }
-
-  viewQrCode(student) {
-    console.log(student);
-    if (!student || !student.qrcode) return;
-    this.router.navigate(['/tabs/qr-code', { qrCode: student.qrcode }], {
-      relativeTo: this.route,
-    });
-  }
-
-  // checkPaymentSuccess() {
-  //   this.paymentService.paymentStatusObs.subscribe((res) => {
-  //     if (res == true && localStorage.getItem('studentCode')) {
-  //       this.apiService
-  //         .updatePaymentStatus(localStorage.getItem('studentCode'))
-  //         .subscribe((res) => {
-  //           this.fillParentChildren();
-  //         });
-  //     }
-  //   });
-  // }
-
   ionViewWillLeave() {
     if (this.intervalTimer) clearInterval(this.intervalTimer);
   }
 
-  // onSchoolObjectChanged() {
-  //   this.parentList.forEach((e, i) => {
-  //     this.parentTemp.forEach((tempEle, tempIndex) => {
+  fillStudentsByClasses() {
+    let data = {
+      school: this.schoolCode,
+      date: this.datepipe.transform(new Date(), 'yyyy-MM-dd'),
+    };
+    this.isLoading = true;
+    this.apiService.fetchData(data, 'neda_call_log').subscribe(
+      (res) => {
+        if (res['result'].length) {
+          this.students = this.filterStudents(res['result']);
+        }
+        this.isLoading = false;
+      },
+      finalize(() => {})
+    );
+  }
 
-  //       if (tempIndex === i) {
-  //         if (!_.isEqual(tempEle.school, e.school)) {
-  //           console.log('notify');
-  //          // this.notifySchool();
-  //         }
-  //       }
-  //     });
-  //   });
-  // }
+  filterStudents(allStudents: any[]) {
+    let result: any[] = [];
+    let blackList: any[] = [];
+    let greenList: any[] = [];
+    let redList: any[] = [];
+    allStudents.forEach((item, index) => {
+      this.selectedClasses.forEach((clas, indx) => {
+        if (clas == item['classno']) {
+          // console.log(item)
+          if (item['lefttime']) {
+            blackList.push(item);
+          } else if (item['flag'] == 'range') redList.push(item);
+          else if (item['flag'] == 'call') greenList.push(item);
+          //result.push(item);
+        }
+      });
+    });
+    result.push(...greenList, ...redList, ...blackList);
+
+    return result;
+  }
+
+  approveCalling(student) {
+    console.log(student);
+    if (student['flag'] == 'call' && !student['lefttime']) {
+      console.log('existed');
+      let studentObj: any = {};
+      studentObj['code'] = student['code'];
+      studentObj['teacher'] = String(this.user['name']);
+      studentObj['lefttime'] = this.datepipe
+        .transform(new Date(), 'HH:mm')
+        .trim();
+
+      this.apiService.upSert(studentObj, 'neda_call_log').subscribe((res) => {
+        this.fillStudentsByClasses();
+      });
+    }
+  }
+
+  getBackgroundImage(student: any) {
+    if (student.flag == 'call' && !student.lefttime) {
+      return 'url(assets/image/green-time.png)';
+    } else if (student.flag == 'range') {
+      return 'url(assets/image/red-time.png)';
+    } else if (student.lefttime && student.flag == 'call') {
+      return 'url(assets/image/black-time.png)';
+    }
+  }
+
+  count: number = 0;
+  tapevent(student : any) {
+    this.count++;
+    setTimeout(() => {
+      if (this.count == 1) {
+        this.count = 0;
+        //alert('single tap');
+      }
+      if (this.count > 1) {
+        this.count = 0;
+        this.approveCalling(student)
+      }
+    }, 250);
+  }
 }

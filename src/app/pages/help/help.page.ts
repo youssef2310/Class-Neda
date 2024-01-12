@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -8,7 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class HelpPage implements OnInit {
   lang: string = '';
-  constructor(private translateService: TranslateService) {
+  constructor(private translateService: TranslateService, public location : Location) {
    // this.ionViewWillEnter();
   }
 

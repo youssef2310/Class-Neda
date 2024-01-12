@@ -13,7 +13,7 @@ ion-content {
 }
 
 .happy-serve {
-  color: #8b3cce;
+  color: #9640ac;
   font-weight: bolder;
   font-size: 18px;
   text-transform: capitalize;
@@ -37,12 +37,17 @@ ion-content {
 //   }
 // }
 
-
-
-.toast-container{
-  background:yellow;
+.toast-container {
+  background: yellow;
 }
 
-.toast-md .toast-message{
+.toast-md .toast-message {
   color: red;
+}
+
+.inp-general {
+  padding: 5px !important;
+  padding-left: 10px !important;
+  border-radius: 10px;
+  color: #6D7177 !important;
 }

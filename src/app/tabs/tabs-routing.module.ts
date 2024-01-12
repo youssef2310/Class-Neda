@@ -20,20 +20,11 @@ const routes: Routes = [
         loadChildren: () => import('../pages/help/help.module').then( m => m.HelpPageModule)
       },
       {
-        path: 'spare-driver',
-        loadChildren: () => import('../pages/spare-driver/spare-driver.module').then( m => m.SpareDriverPageModule)
+        path: 'settings',
+        loadChildren: () => import('../pages/settings/settings.module').then( m => m.SettingPageModule)
       },
-      {
-        path: 'notification',
-        loadChildren: () => import('../pages/notification/notification.module').then( m => m.NotificationPageModule)
-      },
-      {
-        path: 'qr-code',
-        loadChildren: () =>
-          import(`../pages/qr-code/qr-code.module`).then(
-            (m) => m.QrCodePageModule
-          ),
-      },
+
+
       {
         path: '',
         redirectTo: '/tabs/home',

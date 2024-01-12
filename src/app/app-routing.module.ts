@@ -20,19 +20,11 @@ const routes: Routes = [
       ),
   },
 
-
-
-
   {
     path: '',
     redirectTo: '/signin',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
-  {
-    path: 'qr-code',
-    loadChildren: () => import('./pages/qr-code/qr-code.module').then( m => m.QrCodePageModule)
-  },
-
 ];
 @NgModule({
   imports: [

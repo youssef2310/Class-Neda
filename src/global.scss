@@ -42,7 +42,7 @@
 
 ion-header {
   ion-toolbar {
-    --background: linear-gradient(to left, #8b3cce 0%, #060690 100%) !important;
+   // --background: linear-gradient(to left, #8b3cce 0%, #060690 100%) !important;
     min-height: 60px !important;
   }
 }
@@ -55,17 +55,29 @@ ion-header {
   display: inherit !important;
 }
 
-.testToast{
+.testToast {
   color: black !important;
 }
 
-.alert-color{
+.alert-color {
   color: #060690 !important;
   font-weight: 600;
 }
 
+.page-title {
+  text-align: center;
+  color: #4e1471;
+  font-weight: bolder;
+  font-size: 17px !important;
+}
+
+@font-face {
+  font-family: "sans";
+  src: url(assets/font/FONT/TheSans-Plain.otf);
+}
+
 * {
-  font-family: "sans_regular" !important;
+  font-family: "sans" !important;
 }
 // .alert-wrapper {
 //   direction: rtl !important;
@@ -90,14 +102,14 @@ ion-header {
 
 .btn-general {
   font-size: 18px;
-  height: 50px !important;
-  --background: linear-gradient(to left, #8b3cce 0%, #060690 100%) !important;
+  height: 60px !important;
+  --background: #4E1471 !important;
   --box-shadow: none;
   --border-radius: 12px;
   width: 100% !important;
   margin: auto !important;
   margin-left: 20px;
-  background: linear-gradient(to left, #8b3cce 0%, #060690 100%) !important;
+  background: #4E1471 !important;
   color: white;
   font-weight: 600;
   text-transform: capitalize !important;
@@ -114,13 +126,13 @@ ion-header {
   width: 95%;
   margin: auto;
   border-radius: 10px;
-  background: #ffffff;
-  border: 2px solid #cecece;
+  // background: #ffffff;
+  // border: 2px solid #cecece;
 }
 
 .msg-text {
-  color: #505050;
-  font-size: 13px;
+  color: #6D7177;
+  font-size: 15px;
 }
 
 .inp-general {
@@ -151,19 +163,23 @@ ion-content {
 }
 
 .active-lang {
-  height: 40px;
+  height: 55px;
   text-align: center;
-  background: #8b3cce;
+  background: #9640AC;
   border: 0;
   outline: 0;
   color: #fff;
+  margin: auto !important;
+  border-radius: 10px !important;
 }
 
 .inactive-lang {
   background: #ffffff;
-  height: 40px;
-  color: #505050;
+  height: 55px;
+  color: #9640AC;
   opacity: 0.8;
   outline: 0;
-  border: 1px solid #cecece;
+  border: 1px solid #CDD4D9 !important;
+  margin: auto !important;
+  border-radius: 10px !important;
 }

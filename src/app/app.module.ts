@@ -15,13 +15,7 @@ import { ApiService } from './services/api.service';
 import {Geolocation} from '@ionic-native/geolocation/ngx'
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FCM } from 'cordova-plugin-fcm-with-dependecy-updated/ionic/ngx';
-import { environment } from '../environments/environment';
-import { AngularFireModule} from '@angular/fire'
-import {AngularFireAuthModule} from '@angular/fire/auth'
-import {AngularFirestoreModule} from '@angular/fire/firestore'
 import {InAppBrowser} from '@ionic-native/in-app-browser/ngx'
-import { PaymentService } from './services/payment.service';
 import {Network} from '@ionic-native/network/ngx'
 import {HTTP} from '@ionic-native/http/ngx';
 import {Dialogs} from '@ionic-native/dialogs/ngx'
@@ -29,9 +23,6 @@ export function LanguageLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
 }
 
-import * as firebase from 'firebase'
-
-firebase.default.initializeApp(environment.firebaseConfig);
 
 @NgModule({
   declarations: [AppComponent],
@@ -41,9 +32,6 @@ firebase.default.initializeApp(environment.firebaseConfig);
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireAuthModule,
-    AngularFirestoreModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -61,9 +49,7 @@ firebase.default.initializeApp(environment.firebaseConfig);
     ApiService,
     Geolocation,
     LocationAccuracy,
-    FCM,
     InAppBrowser,
-    PaymentService,
     Network,
     HTTP,
     Dialogs,
