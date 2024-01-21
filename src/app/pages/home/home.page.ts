@@ -58,6 +58,7 @@ export class HomePage implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.intervalTimer = setInterval(() => {
       this.fillStudentsByClasses();
+      this.setCurrentDateAndTime();
     }, 30000);
   }
 
@@ -127,10 +128,11 @@ export class HomePage implements OnInit {
       this.selectedClasses.forEach((clas, indx) => {
         if (clas == item['classno']) {
           // console.log(item)
-          if (item['lefttime']) {
+          if (item['lefttime'] && item.flag == 'call') {
             blackList.push(item);
           } else if (item['flag'] == 'range') redList.push(item);
-          else if (item['flag'] == 'call') greenList.push(item);
+          else if (item['flag'] == 'call' && !item.lefttime)
+            greenList.push(item);
           //result.push(item);
         }
       });
@@ -167,8 +169,18 @@ export class HomePage implements OnInit {
     }
   }
 
+  getColorName(student) {
+    if (student.flag == 'call' && !student.lefttime) {
+      return '#009F3D';
+    } else if (student.flag == 'range') {
+      return '#dd0607';
+    } else if (student.lefttime && student.flag == 'call') {
+      return '#171717';
+    }
+  }
+
   count: number = 0;
-  tapevent(student : any) {
+  tapevent(student: any) {
     this.count++;
     setTimeout(() => {
       if (this.count == 1) {
@@ -177,8 +189,19 @@ export class HomePage implements OnInit {
       }
       if (this.count > 1) {
         this.count = 0;
-        this.approveCalling(student)
+        this.approveCalling(student);
       }
     }, 250);
+  }
+
+  setCurrentDateAndTime() {
+    let data: any = {};
+    data['lastlogin'] = String(
+      this.datepipe.transform(new Date(), 'yyyy-MM-dd') +
+        ' ' +
+        this.datepipe.transform(new Date(), 'HH:mm').trim()
+    );
+    data['code'] = this.user['code'];
+    this.apiService.upSert(data, 'neda_parents').subscribe();
   }
 }

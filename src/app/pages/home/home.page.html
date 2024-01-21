@@ -73,7 +73,11 @@
     </ion-item>
   </ion-list> -->
 
-  <ion-row style="margin-top: -15px;" class="ion-padding-horizontal" *ngIf="students && students.length">
+  <ion-row
+    style="margin-top: -15px"
+    class="ion-padding-horizontal"
+    *ngIf="students && students.length"
+  >
     <ion-col
       size="12"
       style="height: 80px !important"
@@ -85,20 +89,20 @@
             <ion-col size="2">
               <div
                 class="index-container table"
-                [ngStyle]="{'background-color': student.lefttime ? '#171717' : (student.flag == 'range' ? '#dd0607' : '#009F3D') }"
+                [ngStyle]="{'background-color': getColorName(student) }"
               >
                 <span class="tabel-cell">{{index + 1}}</span>
               </div>
             </ion-col>
-            <ion-col
-              size="6"
-              [ngStyle]="{'color': student.lefttime ? '#171717' : (student.flag == 'range' ? '#dd0607' : '#009F3D') }"
-            >
+            <ion-col size="6" [ngStyle]="{'color': getColorName(student) }">
               <p class="student-name">{{student.name}}</p>
               <p class="class-name">{{student.classno}}</p>
             </ion-col>
-            <ion-col size="4" style="text-align: end;">
-              <div class="image-container" [ngStyle]="{'background-image': getBackgroundImage(student)}">
+            <ion-col size="4" style="text-align: end">
+              <div
+                class="image-container"
+                [ngStyle]="{'background-image': getBackgroundImage(student)}"
+              >
                 <!-- <img
                   src="assets/image/green-time.png"
                   *ngIf="student.flag == 'call' && !student.lefttime "
@@ -126,7 +130,14 @@
   <ion-col *ngIf="(!selectedClasses || !selectedClasses.length) && !isLoading">
     <ion-row class="ion-padding-horizontal">
       <div style="flex: 10; text-align: center">
-        <h2 style="font-weight: bold; font-size: 25px; margin-top: 50%; color: #4E1471;">
+        <h2
+          style="
+            font-weight: bold;
+            font-size: 25px;
+            margin-top: 50%;
+            color: #4e1471;
+          "
+        >
           {{'School code & classes not defined yetplease go to setup screen' |
           translate}}
         </h2>

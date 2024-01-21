@@ -39,7 +39,7 @@ export class SpareDriverPage implements OnInit {
     private apiService: ApiService,
     private modalCtrl: ModalController,
     private cdr: ChangeDetectorRef,
-    public location : Location,
+    public location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {}
 
@@ -104,14 +104,15 @@ export class SpareDriverPage implements OnInit {
     modal.present();
 
     const { data, role } = await modal.onWillDismiss();
-    console.log(data['selectedClasses']);
     this.selectedClasses = [];
     this.selectedClasses = data['selectedClasses'];
-    console.log(this.selectedClasses);
+    if (this.selectedClasses) {
+      this.cacheSelectedClasses();
+    }
     this.cdr.detectChanges();
   }
 
-  CacheSelectedClasses() {
+  cacheSelectedClasses() {
     this.isLoading = true;
     this.apiService
       .upSert(
