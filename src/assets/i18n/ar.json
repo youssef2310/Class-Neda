@@ -78,7 +78,9 @@
   "parent is almost reaches to school. Student should get ready to leave": "الأب قريب من المدرسة، على الطالب الاستعداد للخروج.",
   "parent clicked on call button. Student must leave immediately": "الأب طلب النداء للخروج، على الطالب الخروج فوراً.",
   "Student already left the class after teacher clicked on student name": "تم خروج الطالب من الفصل بعد قيام المعلم بالضغط على اسمه.",
-  "If student name is Green, the teacher can click on the student name to save the time he leaves the classroom": "إذا كان اسم الطالب باللون الأخضر، فيمكن للمعلم النقر على اسم الطالب لحفظ الوقت الذي غادر فيه الفصل",
+  "If student name is Green, the teacher can click on the student name to save the time he leaves the classroom": "إذا كان اسم الطالب باللون الأخضر، فيمكن للمعلم النقر مرتين على اسم الطالب لحفظ الوقت الذي غادر فيه الفصل",
   "Enter school code after obtaining it from a representative of our company": "أدخل رمز المدرسة بعد الحصول عليه من مندوب شركتنا",
-  "Select classes by checking the box besides class name. Teacher will select one class while duty teacher will select multiple classes": "حدد الفصول عن طريق تحديد المربع بجانب اسم الفصل. سيختار المعلم فصلًا واحدًا بينما سيختار المعلم المناوب فصولًا متعددة"
+  "Select classes by checking the box besides class name. Teacher will select one class while duty teacher will select multiple classes": "حدد الفصول عن طريق تحديد المربع بجانب اسم الفصل. سيختار المعلم فصلًا واحدًا بينما سيختار المعلم المناوب فصولًا متعددة",
+  "Add & Edit Classes" : "إضافة وتعديل الفصول"
+
 }

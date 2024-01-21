@@ -29,6 +29,7 @@ export class SpareDriverPage implements OnInit {
   encryptedCode: string = '******';
   user: any = {};
   startCall: boolean = false;
+  schoolName: string = '';
   @ViewChild('modal', { static: true }) modal!: ModalController;
   @ViewChild('template') templateRef: TemplateRef<any>;
 
@@ -77,6 +78,7 @@ export class SpareDriverPage implements OnInit {
     };
     this.apiService.fetchData(data, 'neda_schools').subscribe((res) => {
       console.log(res);
+      this.schoolName = res['result'][0]['name'];
       this.isClassesLoading = false;
       if (!res['result']['length']) {
         let msg = this.translateConfig.translate.instant(

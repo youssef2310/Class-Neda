@@ -78,7 +78,9 @@
   "parent is almost reaches to school. Student should get ready to leave": "parent is almost reaches to school. Student should get ready to leave",
   "parent clicked on call button. Student must leave immediately": "parent clicked on call button. Student must leave immediately",
   "Student already left the class after teacher clicked on student name": "Student already left the class after teacher clicked on student's name.",
-  "If student name is Green, the teacher can click on the student name to save the time he leaves the classroom": "If student name is GREEN, the teacher can click on the student's name to save the time he leaves the classroom",
+  "If student name is Green, the teacher can click on the student name to save the time he leaves the classroom": "If student name is GREEN, the teacher can make double click on the student's name to save the time he leaves the classroom",
   "Enter school code after obtaining it from a representative of our company": "Enter school code after obtaining it from a representative of our company",
-  "Select classes by checking the box besides class name. Teacher will select one class while duty teacher will select multiple classes": "Select classes by checking the box besides class name. Teacher will select one class while duty teacher will select multiple classes"
+  "Select classes by checking the box besides class name. Teacher will select one class while duty teacher will select multiple classes": "Select classes by checking the box besides class name. Teacher will select one class while duty teacher will select multiple classes",
+  "Add & Edit Classes" : "Add & Edit Classes"
 }
+

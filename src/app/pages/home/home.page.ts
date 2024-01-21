@@ -137,9 +137,24 @@ export class HomePage implements OnInit {
         }
       });
     });
+    this.sortByTime(greenList);
     result.push(...greenList, ...redList, ...blackList);
 
     return result;
+  }
+  sortByTime(list: any[]) {
+    list.sort((a, b) => {
+      const timeA = this.convertTimeToMinutes(a.time);
+      const timeB = this.convertTimeToMinutes(b.time);
+      return timeB - timeA;
+    });
+
+    console.log(list)
+  }
+
+  private convertTimeToMinutes(time: string): number {
+    const [hours, minutes] = time.split(':').map(Number);
+    return hours * 60 + minutes;
   }
 
   approveCalling(student) {

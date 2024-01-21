@@ -141,10 +141,13 @@ ion-icon {
   margin-top: 11px;
   margin-left: -10px;
   margin-right: -10px;
+  //white-space: nowrap;
 }
 
 .inp-general {
   text-align: center !important;
+  font-size: 12px;
+  opacity: 0.7;
 }
 
 :lang(ar) {

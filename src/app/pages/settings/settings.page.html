@@ -52,18 +52,18 @@
               </ion-row>
               <br />
               <ion-row>
-                <ion-col size="8">
+                <ion-col size="4">
                   <div class="inp-container">
                     <span>{{'School Code' | translate}}</span>
                   </div>
                 </ion-col>
-                <ion-col size="4">
+                <ion-col size="8">
                   <ion-input
                     type="text"
                     name="txtSchoolCode"
                     required
                     class="inp-general"
-                    [(ngModel)]="encryptedCode"
+                    [(ngModel)]="schoolName"
                     #ngSchoolCode="ngModel"
                     disabled
                   ></ion-input>
@@ -80,7 +80,7 @@
                     [disabled]="!schoolCode"
                   >
                     <span *ngIf="!isClassesLoading"
-                      >{{'Show Classes' | translate}}</span
+                      >{{'Add & Edit Classes' | translate}}</span
                     >
                     <ion-spinner
                       *ngIf="isClassesLoading"
