@@ -4,7 +4,6 @@ import { ApiService } from '../../services/api.service';
 import { TranslateConfigService } from '../../services/translate-config.service';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.page.html',
@@ -24,7 +23,8 @@ export class SigninPage implements OnInit {
     private apiService: ApiService,
     private sharedMethods: SharedMethodsService,
     private router: Router,
-    private alertController: AlertController
+    private alertController: AlertController,
+   
   ) {
     this.lang = this.translateConfigService.getCurrentLang();
   }
@@ -129,4 +129,5 @@ export class SigninPage implements OnInit {
         }
       });
   }
+
 }

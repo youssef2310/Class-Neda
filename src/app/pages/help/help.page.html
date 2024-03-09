@@ -104,6 +104,19 @@
                 </span>
               </ion-col>
             </ion-row>
+            <hr style="background: #CDD4D9;">
+            <ion-row>
+              <ion-col size="3">
+                <div class="color-container gray-background">
+                  <span class="tabel-cell"> {{'Gray' | translate}} </span>
+                </div>
+              </ion-col>
+              <ion-col size="9">
+                <span class="color-text">
+                  {{'Student left the school after watchman clicked on student’s name' | translate}}
+                </span>
+              </ion-col>
+            </ion-row>
           </ion-card-content>
         </ion-card>
       </ion-row>
@@ -116,12 +129,26 @@
           </ion-col>
           <ion-col size="9" class="tabel-cell">
             <span class="color-text " style="color: #000 !important; font-weight: bolder;">
-              {{'If student name is Green, the teacher can click on the student name to save the time he leaves the classroom' | translate}}
+              {{'If student name is Green, the teacher can click on the student name to save the time he leaves the classroom' | translate}} <span class="classroom">{{'classroom' | translate}}</span>
             </span>
           </ion-col>
       </ion-row>
       <br />
 
+
+      <ion-row class="help-container tabel">
+        <ion-col size="3" class="tabel-cell">
+          <div>
+            <img src="assets/image/gray-avatar.png" width="60px" />
+          </div>
+        </ion-col>
+        <ion-col size="9" class="tabel-cell">
+          <span class="color-text " style="color: #000 !important; font-weight: bolder;">
+            {{'If student name is Green or Black, watchman can make double click on the student’s name to save the time he left the school.' | translate}} <span class="class">{{'school' | translate}}</span>
+          </span>
+        </ion-col>
+    </ion-row>
+    <br />
 
 
       <ion-row>
@@ -135,13 +162,45 @@
           <ion-card-content>
             <ion-row>
               <ion-col size="3">
-                
                  <img src="assets/image/stars-check.png" width="55px" />
-                
               </ion-col>
               <ion-col size="9">
                 <span class="color-text">
-                  {{'Select classes by checking the box besides class name. Teacher will select one class while duty teacher will select multiple classes' | translate}}
+                  {{'Select the day by checking the corresponding box, and then enter the calling start time for this day.' | translate}}
+                </span>
+              </ion-col>
+            </ion-row>
+            <br>
+
+            <ion-row>
+              <ion-col size="3">
+                 <img src="assets/image/stars-check.png" width="55px" />
+              </ion-col>
+              <ion-col size="9">
+                <span class="color-text">
+                  {{'Specify run duration in hours' | translate}}
+                </span>
+              </ion-col>
+            </ion-row>
+            <br>
+            <ion-row>
+              <ion-col size="3">
+                 <img src="assets/image/stars-check.png" width="55px" />
+              </ion-col>
+              <ion-col size="9">
+                <span class="color-text">
+                  {{'You must click Save after making any modification' | translate}}
+                </span>
+              </ion-col>
+            </ion-row>
+            <br>
+            <ion-row>
+              <ion-col size="3">
+                 <img src="assets/image/stars-check.png" width="55px" />
+              </ion-col>
+              <ion-col size="9">
+                <span class="color-text">
+                  {{'In exceptional cases, to start the call immediately, choose (Start Call). Calling will work for the period specified in (Call Run Duration) and will stop automatically' | translate}}
                 </span>
               </ion-col>
             </ion-row>

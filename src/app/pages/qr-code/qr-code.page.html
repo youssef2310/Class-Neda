@@ -1,0 +1,63 @@
+<ion-content class="ion-padding" [lang]="lang">
+  <ion-grid>
+    <ion-row class="ion-padding-vertical" style="direction: rtl !important">
+      <ion-col size="3"></ion-col>
+      <ion-col class="page-title" size="6">
+        <span> {{'Student QR Code' | translate}} </span>
+      </ion-col>
+      <ion-col size="3" class="ion-text-end">
+        <ion-icon
+          (click)="location.back()"
+          style="font-size: 28px"
+          src="assets/icon/back-icon.svg"
+        ></ion-icon>
+      </ion-col>
+    </ion-row>
+    <br />
+    <br />
+    <br />
+    <ion-row class="ion-padding-vertical ion-text-center">
+      <img src="assets/image/qr-img.png" width="85%" style="margin: auto" />
+    </ion-row>
+    <br />
+    <ion-row>
+      <button mat-raised-button class="btn-general" (click)="scanStudentCode()">
+        <span>{{'Click here to scan student’s QR Code' | translate}}</span>
+      </button>
+    </ion-row>
+    <br />
+    <ion-col *ngIf="scanSuccess">
+      <ion-row class="ion-text-center">
+        <img
+          src="assets/image/qr-done-img.png"
+          width="25%"
+          style="margin: auto"
+        />
+      </ion-row>
+      <br />
+
+      <ion-row>
+        <p class="success-msg">
+          {{'QR Code scanned and call requested successfully' | translate}}
+        </p>
+      </ion-row>
+    </ion-col>
+
+    <ion-col *ngIf="scanFailed">
+      <ion-row class="ion-text-center">
+        <img
+          src="assets/image/qr-failed-img.png"
+          width="25%"
+          style="margin: auto"
+        />
+      </ion-row>
+      <br />
+
+      <ion-row>
+        <p class="error-msg">
+          {{'This Code is not belong to this school' | translate}}
+        </p>
+      </ion-row>
+    </ion-col>
+  </ion-grid>
+</ion-content>

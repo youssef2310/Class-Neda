@@ -1,46 +1,29 @@
-<!-- <ion-header class="ion-no-border" [lang]="lang">
-  <ion-toolbar>
-    <ion-buttons
-      slot="start"
-      class="ion-padding-vertical"
-      routerLink="/tabs/settings"
-    >
-      <ion-icon
-        name="settings-outline"
-        size="medium"
-        slot="icon-only"
-        color="light"
-        class="setting-icon"
-      ></ion-icon>
-    </ion-buttons>
-
-    <ion-label slot="end" header-title>
-      <ion-row style="white-space: nowrap">
-        <div style="flex: 1"></div>
-        <ion-col>
-          <p class="client-name">{{ user.name}}</p>
-          <p class="mobile-number">+966{{user.mob}}</p>
-        </ion-col>
-        <img src="assets/image/avatar-home-img.svg" class="avatar-img" />
-      </ion-row>
-    </ion-label>
-  </ion-toolbar>
-</ion-header> -->
-
-<ion-content [lang]="lang" dir="rtl">
-  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content> </ion-refresher-content>
-  </ion-refresher>
-  <ion-spinner color="primary" *ngIf="isLoading"></ion-spinner>
-
+<ion-header dir="rtl">
   <ion-row class="ion-padding">
     <ion-col size="3">
       <img src="assets/image/avatar-home-img.svg" width="40px" />
     </ion-col>
-    <ion-col class="page-title" size="6">
+    <ion-col class="page-title" size="4">
       <span> {{'home' | translate}} </span>
     </ion-col>
-    <ion-col size="3" style="text-align: end">
+    <ion-col size="2" style="text-align: end" (click)="test()">
+      <!-- <ion-icon
+        style="font-size: 28px"
+        src="assets/image/filter.png"
+        mat-icon-button
+        [matMenuTriggerFor]="menu"
+      ></ion-icon> -->
+      <img src="assets/image/filter.png" width="28px"  />
+    </ion-col>
+    <ion-col size="2" style="text-align: center">
+      <ion-icon
+        style="font-size: 28px"
+        src="assets/icon/sort-icon.svg"
+        mat-icon-button
+        [matMenuTriggerFor]="menu"
+      ></ion-icon>
+    </ion-col>
+    <ion-col size="1" style="text-align: end">
       <ion-icon
         style="font-size: 28px"
         routerLink="/tabs/settings"
@@ -48,30 +31,23 @@
       ></ion-icon>
     </ion-col>
   </ion-row>
+</ion-header>
 
-  <!-- <ion-list [inset]="true" *ngIf="students && students.length">
-    <ion-item
-      [button]="true"
-      detail="false"
-      *ngFor="let student of students"
-      [ngClass]="student.lefttime  ? 'left-time' : student.flag == 'range' ?  'range' : student.flag == 'call' ? 'call' : '' "
-      (click)="approveCalling(student)"
+<ion-content [lang]="lang" dir="rtl">
+  <!-- <ion-row>
+    <ion-col size="3"></ion-col>
+    <ion-col size="6"
+      ><button (click)="test()" mat-raised-button class="filter-btn">
+        تصنيف النتائج
+      </button></ion-col
     >
-      <div class="unread-indicator-wrapper" slot="start">
-        <div class="unread-indicator"></div>
-      </div>
-      <ion-label>
-        <strong>{{student.name}}</strong>
-        <ion-text>{{student.classno}}</ion-text><br />
-      </ion-label>
-      <div class="metadata-end-wrapper" slot="end">
-        <ion-note
-          >{{student.lefttime ? student.lefttime : student.time}}</ion-note
-        >
-        <ion-icon name="chevron-back"></ion-icon>
-      </div>
-    </ion-item>
-  </ion-list> -->
+    <ion-col size="3"></ion-col>
+  </ion-row> -->
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content> </ion-refresher-content>
+  </ion-refresher>
+  <ion-spinner color="primary" *ngIf="isLoading"></ion-spinner>
 
   <ion-row
     style="margin-top: -15px"
@@ -103,21 +79,9 @@
                 class="image-container"
                 [ngStyle]="{'background-image': getBackgroundImage(student)}"
               >
-                <!-- <img
-                  src="assets/image/green-time.png"
-                  *ngIf="student.flag == 'call' && !student.lefttime "
-                />
-                <img
-                  src="assets/image/red-time.png"
-                  *ngIf="student.flag == 'range'"
-                />
-                <img
-                  src="assets/image/black-time.png"
-                  *ngIf="student.lefttime && student.flag == 'call' "
-                /> -->
-
                 <span class="text-inside"
-                  >{{student.lefttime ? student.lefttime : student.time}}</span
+                  >{{student.leftschool ? student.leftschool : student.lefttime
+                  ? student.lefttime : student.time}}</span
                 >
               </div>
             </ion-col>
@@ -144,7 +108,58 @@
       </div>
     </ion-row>
   </ion-col>
+  <ion-col
+    *ngIf="(selectedClasses && selectedClasses.length) && !isLoading && !students.length"
+  >
+    <ion-row class="ion-padding-horizontal">
+      <div style="flex: 10; text-align: center">
+        <h2
+          style="
+            font-weight: bold;
+            font-size: 25px;
+            margin-top: 50%;
+            color: #4e1471;
+          "
+        >
+          {{'Sorry there is no results' | translate}}
+        </h2>
+      </div>
+    </ion-row>
+  </ion-col>
 </ion-content>
+
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="sort(1)">
+    <span>{{'sort by alphabetical' | translate}}</span>
+  </button>
+  <button mat-menu-item (click)="sort(2)">
+    <span>{{'sort by time' | translate}}</span>
+  </button>
+</mat-menu>
+
+<ion-list style="display: none" >
+  <ion-item>
+    <ion-select
+      [lang]="lang"
+      #filterOptionsSelect
+      name="txtFilterOptions"
+      [(ngModel)]="filterOptions"
+      [multiple]="true"
+      (ionCancel)="onCancel()"
+      (ionChange)="onChange()"
+    >
+      <ion-select-option value="green"
+        >{{'Green' | translate}}</ion-select-option
+      >
+      <ion-select-option value="red">{{'Red' | translate}}</ion-select-option>
+      <ion-select-option value="black"
+        >{{'Black' | translate}}</ion-select-option
+      >
+
+      <ion-select-option value="gray">{{'Gray' | translate}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+</ion-list>
 
 <!-- ;
 padding-bottom: 20px; -->

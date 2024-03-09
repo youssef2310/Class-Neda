@@ -10,7 +10,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import {MaterialModule} from '../../material.module'
 import { RouterModule } from '@angular/router';
 
-
 @NgModule({
   imports: [
     CommonModule,

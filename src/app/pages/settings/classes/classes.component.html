@@ -34,6 +34,16 @@
 <ion-content class="ion-padding" dir="rtl">
   <ion-list id="modal-list" [inset]="true">
     <ion-item
+  
+  >
+    <mat-checkbox
+      [name]="txtSelectAll"
+      (change)="selectAll($event)"
+      color="primary"
+      >{{ 'Select All' | translate }}</mat-checkbox
+    >
+  </ion-item>
+    <ion-item
       *ngFor="let item of filteredItems; trackBy: trackItems; let index = index"
     >
       <mat-checkbox

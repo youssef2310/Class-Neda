@@ -1,17 +1,35 @@
 <ion-tabs [lang]="lang">
   <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="qr-code" *ngIf="user.qrread">
+      <ion-icon
+        [src]="activeTab == 'qr-code' ? 'assets/icon/qr-active.svg' : 'assets/icon/qr-tab.svg' "
+        [style.font-size]="activeTab == 'qr-code' ? '40px' : '30px' "
+      ></ion-icon>
+    </ion-tab-button>
     <ion-tab-button tab="help">
-      <ion-icon src="assets/icon/help-tab.svg"></ion-icon>
+      <ion-icon
+        [src]="activeTab == 'help' ? 'assets/icon/help-active.svg' : 'assets/icon/help-tab.svg' "
+        [style.font-size]="activeTab == 'help' ? '40px' : '30px' "
+      ></ion-icon>
     </ion-tab-button>
     <ion-tab-button tab="settings">
-      <ion-icon src="assets/icon/settings-tab.svg"></ion-icon>
+      <ion-icon
+        [src]="activeTab == 'settings' ? 'assets/icon/settings-active.svg' : 'assets/icon/settings-tab.svg' "
+        [style.font-size]="activeTab == 'settings' ? '40px' : '30px' "
+      ></ion-icon>
     </ion-tab-button>
 
     <ion-tab-button tab="profile">
-      <ion-icon src="assets/icon/profile-tab.svg"></ion-icon>
+      <ion-icon
+        [src]="activeTab == 'profile' ? 'assets/icon/profile-active.svg' : 'assets/icon/profile-tab.svg' "
+        [style.font-size]="activeTab == 'profile' ? '40px' : '30px' "
+      ></ion-icon>
     </ion-tab-button>
     <ion-tab-button tab="home">
-      <ion-icon src="assets/icon/home-tab.svg"></ion-icon>
+      <ion-icon
+        [src]="activeTab == 'home' ?  'assets/icon/home-active.svg' : 'assets/icon/home-tab.svg' "
+        [style.font-size]="activeTab == 'home' ? '40px' : '30px' "
+      ></ion-icon>
     </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>

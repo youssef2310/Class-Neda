@@ -32,7 +32,7 @@ ion-toolbar {
 ion-badge {
   border-radius: 10px;
   padding: 10px;
-  background: #9640AC;
+  background: #9640ac;
   color: #ffffff;
   white-space: initial;
   line-height: 20px;
@@ -55,15 +55,14 @@ ion-card-content {
   margin: auto;
 }
 
-
-.inp-general{
+.inp-general {
   padding-left: 0 !important;
   padding-right: 0 !important;
-
 }
 
 .classes-btn {
- width: auto !important;
+  min-width: 150px !important;
+  width: auto !important;
   color: #9640ac !important;
   background: white !important;
   border: 2px solid #cdd4d9;
@@ -180,4 +179,18 @@ ion-icon {
 ::ng-deep .mat-checkbox-inner-container {
   width: 20px !important;
   height: 20px !important;
+}
+
+::ng-deep .timepicker__header {
+  background-color: #4e1471 !important;
+}
+
+mat-checkbox {
+  font-size: 13px;
+}
+
+.setting-container {
+  font-weight: bold;
+  color: #000 !important;
+  --color: #000 !important;
 }

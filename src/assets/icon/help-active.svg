@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="39.558" height="43.112" viewBox="0 0 39.558 43.112">
+  <g id="Group_1403" data-name="Group 1403" transform="translate(-134 -160)">
+    <path id="Line" d="M.75.5H37.308" transform="translate(134.75 201.112)" fill="none" stroke="#9640ac" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+    <g id="Group_1390" data-name="Group 1390" transform="translate(142 161)">
+      <path id="Path_38" data-name="Path 38" d="M12.854,13.817v-.949a4.084,4.084,0,0,1,.193-1.352,2,2,0,0,1,.579-.877,2.338,2.338,0,0,1,.973-.475,5.8,5.8,0,0,1,1.376-.144h1.045a5.878,5.878,0,0,1,1.392.144,2.338,2.338,0,0,1,.973.475,2,2,0,0,1,.579.877,4.084,4.084,0,0,1,.193,1.352,4.771,4.771,0,0,1-.072.868,3.139,3.139,0,0,1-.217.708,3,3,0,0,1-.37.611,3.809,3.809,0,0,1-.547.564l-.917.724a3.075,3.075,0,0,0-.418.434,2.107,2.107,0,0,0-.258.426,1.639,1.639,0,0,0-.128.459,4.038,4.038,0,0,0-.033.547v.4" transform="translate(-4.506 -3.66)" fill="none" stroke="#9640ac" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <line id="Line_21" data-name="Line 21" y2="0.417" transform="translate(12.698 17.258)" fill="none" stroke="#9640ac" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <path id="Path_39" data-name="Path 39" d="M25,13A12,12,0,0,1,6.714,23.219L2.886,24.264a.886.886,0,0,1-1.108-.848.988.988,0,0,1,.084-.372,8.05,8.05,0,0,0,.6-4.319A12,12,0,1,1,25,13Z" transform="translate(-1 -1)" fill="none" stroke="#9640ac" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    </g>
+  </g>
+</svg>

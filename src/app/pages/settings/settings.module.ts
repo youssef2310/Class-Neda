@@ -7,13 +7,10 @@ import { IonicModule } from '@ionic/angular';
 import { SettingPageRoutingModule } from './settings-routing.module';
 
 import { SpareDriverPage } from './settings.page';
-import { NgSelectModule } from '@ng-select/ng-select';
 
-
-import {MaterialModule} from '../../material.module'
+import { MaterialModule } from '../../material.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { ClassesComponent } from './classes/classes.component';
-
 @NgModule({
   imports: [
     CommonModule,
@@ -22,10 +19,7 @@ import { ClassesComponent } from './classes/classes.component';
     SettingPageRoutingModule,
     MaterialModule,
     TranslateModule,
-    NgSelectModule
-
   ],
   declarations: [SpareDriverPage, ClassesComponent],
-  
 })
 export class SettingPageModule {}

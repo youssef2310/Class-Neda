@@ -12,24 +12,23 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateConfigService } from './services/translate-config.service';
 import { SharedVariablesService } from './services/shared-variables.service';
 import { ApiService } from './services/api.service';
-import {Geolocation} from '@ionic-native/geolocation/ngx'
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {InAppBrowser} from '@ionic-native/in-app-browser/ngx'
-import {Network} from '@ionic-native/network/ngx'
-import {HTTP} from '@ionic-native/http/ngx';
-import {Dialogs} from '@ionic-native/dialogs/ngx'
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { Network } from '@ionic-native/network/ngx';
+import { HTTP } from '@ionic-native/http/ngx';
+import { Dialogs } from '@ionic-native/dialogs/ngx';
 export function LanguageLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
 }
-
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(),
+    IonicModule.forRoot({}),
     AppRoutingModule,
     HttpClientModule,
     TranslateModule.forRoot({

@@ -166,7 +166,8 @@ ion-card {
 .student-name {
   height: 12px;
   font-weight: bold;
-  font-size: 15px;
+  font-size: 13px;
+  white-space: nowrap !important;
 }
 
 .class-name {
@@ -183,7 +184,6 @@ ion-card {
   background-size: cover;
   display: table;
   margin-right: 2rem;
-
 }
 
 .text-inside {
@@ -196,3 +196,31 @@ ion-card {
   margin-top: 13px;
   padding-top: 18px;
 }
+
+mat-form-field {
+  width: 100%;
+  width: 80% !important;
+  margin: auto;
+}
+
+.filter-btn {
+  background-color: #9640ac;
+  color: #fff;
+  width: 100%;
+  height: 50px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+::ng-deep .alert-checkbox-icon.sc-ion-alert-md {
+  left: 26 !important;
+  right: 26px !important;
+}
+// ::ng-deep [lang="en"] {
+//   .alert-checkbox-icon.sc-ion-alert-md {
+//     left: 26 !important;
+//     right: 0 !important;
+//   }
+// }

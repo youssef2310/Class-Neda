@@ -23,6 +23,7 @@ import { Network } from '@ionic-native/network/ngx';
     MaterialModule,
     TranslateModule,
     RouterModule,
+    
   ],
   declarations: [HomePage],
   providers: [DatePipe, Network],

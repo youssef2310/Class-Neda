@@ -31,7 +31,7 @@ export class ClassesComponent implements OnInit {
   }
 
   cancelChanges() {
-    this.modalCtrl.dismiss();
+    this.modalCtrl.dismiss({ selectedClasses: this.selectedItems });
   }
 
   confirmChanges() {
@@ -83,6 +83,16 @@ export class ClassesComponent implements OnInit {
       this.workingSelectedValues = this.workingSelectedValues.filter(
         (item) => item !== val
       );
+    }
+  }
+
+  selectAll(ev: any) {
+    let checked = ev.checked;
+    if (checked) {
+      this.workingSelectedValues = [];
+      this.workingSelectedValues = [...this.filteredItems];
+    } else {
+      this.workingSelectedValues = [];
     }
   }
 }
